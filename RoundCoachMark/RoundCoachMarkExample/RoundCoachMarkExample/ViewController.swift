@@ -7,19 +7,31 @@
 //
 
 import UIKit
+import RoundCoachMark
 
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
+class ViewController: UIViewController 
+{
+    @IBOutlet weak var marksView: CoachMarksContainerView!
+    @IBOutlet weak var tempTextBox: UIView!
+    
+    override func viewDidLoad() 
+    {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        view.backgroundColor = UIColor.white
+        marksView.isHidden = true
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning() 
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
-
+    @IBAction func onTap(_ sender: Any) 
+    {
+        marksView.isHidden = false
+        marksView.showCoachMark(tmpBox:tempTextBox.frame)
+    }
+    
 }
 

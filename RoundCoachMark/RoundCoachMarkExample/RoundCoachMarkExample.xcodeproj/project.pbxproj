@@ -12,7 +12,23 @@
 		279F613A1FE161980017C62A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 279F61381FE161980017C62A /* Main.storyboard */; };
 		279F613C1FE161980017C62A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 279F613B1FE161980017C62A /* Assets.xcassets */; };
 		279F613F1FE161980017C62A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 279F613D1FE161980017C62A /* LaunchScreen.storyboard */; };
+		E92D33A31FE1E85700CC8D3F /* RoundCoachMark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */; };
+		E92D33A41FE1E85700CC8D3F /* RoundCoachMark.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E92D33A01FE1E7FD00CC8D3F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E92D33A41FE1E85700CC8D3F /* RoundCoachMark.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		279F61311FE161980017C62A /* RoundCoachMarkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoundCoachMarkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -22,6 +38,8 @@
 		279F613B1FE161980017C62A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		279F613E1FE161980017C62A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		279F61401FE161980017C62A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E92D33A11FE1E82900CC8D3F /* RoundCoachMark.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RoundCoachMark.framework; path = "../../../../../../../Users/Choock/Library/Developer/Xcode/DerivedData/RoundCoachMark-dlxidpekalueewcbadgthzkatjpw/Build/Products/Debug-iphoneos/RoundCoachMark.framework"; sourceTree = "<group>"; };
+		E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RoundCoachMark.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E92D33A31FE1E85700CC8D3F /* RoundCoachMark.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,8 +57,10 @@
 		279F61281FE161980017C62A = {
 			isa = PBXGroup;
 			children = (
+				E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */,
 				279F61331FE161980017C62A /* RoundCoachMarkExample */,
 				279F61321FE161980017C62A /* Products */,
+				E92D33981FE1E74F00CC8D3F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,6 +85,14 @@
 			path = RoundCoachMarkExample;
 			sourceTree = "<group>";
 		};
+		E92D33981FE1E74F00CC8D3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E92D33A11FE1E82900CC8D3F /* RoundCoachMark.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,6 +103,7 @@
 				279F612D1FE161980017C62A /* Sources */,
 				279F612E1FE161980017C62A /* Frameworks */,
 				279F612F1FE161980017C62A /* Resources */,
+				E92D33A01FE1E7FD00CC8D3F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
