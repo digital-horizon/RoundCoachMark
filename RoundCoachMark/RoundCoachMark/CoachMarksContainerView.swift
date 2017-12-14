@@ -16,12 +16,6 @@ public class CoachMarksContainerView: UIView
     var ringView:CoachRingView?
     var ringIdx:Int = -1
     
-//    override public init(frame: CGRect) 
-//    {
-//        
-//        super.init(frame: frame)
-//    }
-    
     required public init?(coder aDecoder: NSCoder) 
     {
         centers = [
@@ -50,8 +44,6 @@ public class CoachMarksContainerView: UIView
         while(idx == ringIdx)
         ringIdx = idx
         
-        let control_center = CGPoint(x:200,y:620)
-        let control_radius:CGFloat = 20
         let text_bb = tmpBox//CGRect(x:100, y:300, width:100, height:100)
         let ring = CoachRing(controlCenter:centers[ringIdx], controlRadius:radiuses[ringIdx], innerRect:text_bb, outerRect:self.bounds, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
         ringView = CoachRingView(frame:self.bounds)
