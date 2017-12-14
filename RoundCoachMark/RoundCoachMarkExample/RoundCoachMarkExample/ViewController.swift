@@ -30,7 +30,8 @@ class ViewController: UIViewController
     @IBAction func onTap(_ sender: Any) 
     {
         marksView.isHidden = false
-        marksView.showCoachMark(tmpBox:tempTextBox.frame)
+        tempTextBox.alpha = 0
+        marksView.showCoachMark(tmpBox:tempTextBox)
     }
     
 }

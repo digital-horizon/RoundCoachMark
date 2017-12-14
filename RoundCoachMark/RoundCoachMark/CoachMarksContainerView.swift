@@ -33,23 +33,40 @@ public class CoachMarksContainerView: UIView
         super.init(coder: aDecoder)
     }
     
-    public func showCoachMark(tmpBox:CGRect)
+    public func showCoachMark(tmpBox:UIView)
     {
-        if let prev_ring = ringView {prev_ring.removeFromSuperview()}
+        if let prev_ring = ringView 
+        {
+            prev_ring.openRing(false,
+            completion:
+            { [weak self] in
+                prev_ring.removeFromSuperview()
+                self?.showNewRing(tmpBox:tmpBox)
+            })
+            tmpBox.alpha = 0
+            ringView = nil
+            return
+        }
+        showNewRing(tmpBox:tmpBox)
+    }
+    
+    private func showNewRing(tmpBox:UIView)
+    {
         var idx:Int
         repeat
         {
             idx = Int(arc4random()%4)
         }
-        while(idx == ringIdx)
+            while(idx == ringIdx)
         ringIdx = idx
         
-        let text_bb = tmpBox//CGRect(x:100, y:300, width:100, height:100)
-        let ring = CoachRing(controlCenter:centers[ringIdx], controlRadius:radiuses[ringIdx], innerRect:text_bb, outerRect:self.bounds, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
+        let text_bb = tmpBox.frame//CGRect(x:100, y:300, width:100, height:100)
+        let ring = CoachRing(controlCenter:centers[ringIdx], controlRadius:radiuses[ringIdx], innerRect:text_bb, outerRect:self.bounds)//, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
         ringView = CoachRingView(frame:self.bounds)
         ringView!.ringGeometry = ring
         ringView!.backgroundColor = UIColor.clear
         self.insertSubview(ringView!, at:0)
+        ringView?.openRing(true,completion:{tmpBox.alpha = 1})
     }
 
 }
