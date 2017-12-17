@@ -21,33 +21,9 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="P06-1N-nPR">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tkI-pG-tY0" customClass="CoachMarksContainerView" customModule="RoundCoachMark">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tkI-pG-tY0">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="unr-Ku-CBf">
-                                        <rect key="frame" x="37" y="258" width="300" height="150"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TEXT BOX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oOw-sJ-O64">
-                                                <rect key="frame" x="109" y="64" width="80.5" height="21"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="150" id="DGh-C3-Kev"/>
-                                            <constraint firstItem="oOw-sJ-O64" firstAttribute="centerY" secondItem="unr-Ku-CBf" secondAttribute="centerY" id="aKG-Ie-2Z7"/>
-                                            <constraint firstAttribute="width" constant="300" id="sYh-JX-472"/>
-                                            <constraint firstItem="oOw-sJ-O64" firstAttribute="centerX" secondItem="unr-Ku-CBf" secondAttribute="centerX" id="uIh-Pi-OQe"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstItem="unr-Ku-CBf" firstAttribute="centerY" secondItem="tkI-pG-tY0" secondAttribute="centerY" id="1sY-Q5-muP"/>
-                                    <constraint firstItem="unr-Ku-CBf" firstAttribute="centerX" secondItem="tkI-pG-tY0" secondAttribute="centerX" id="s9V-FX-Bd0"/>
-                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -68,8 +44,7 @@
                         </connections>
                     </view>
                     <connections>
-                        <outlet property="marksView" destination="tkI-pG-tY0" id="y3B-OP-gef"/>
-                        <outlet property="tempTextBox" destination="unr-Ku-CBf" id="D2i-os-ZlO"/>
+                        <outlet property="marksContainer" destination="tkI-pG-tY0" id="uFb-Cg-Z35"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

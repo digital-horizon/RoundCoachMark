@@ -11,27 +11,29 @@ import RoundCoachMark
 
 class ViewController: UIViewController 
 {
-    @IBOutlet weak var marksView: CoachMarksContainerView!
-    @IBOutlet weak var tempTextBox: UIView!
+    @IBOutlet weak var marksContainer: UIView!
+    
+    private var coachMarker:CoachMarker?
     
     override func viewDidLoad() 
     {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        marksView.isHidden = true
+        NotificationCenter.default.addObserver(self, selector:#selector(onCoachMarkerStarted), name:CoachMarker.Events.CoachMarkerMarksRequest, object: nil)
+        coachMarker = CoachMarker(in:marksContainer)
     }
 
-    override func didReceiveMemoryWarning() 
+    @objc func onCoachMarkerStarted() 
     {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        coachMarker?.registerMark(position:CGPoint(x:345,y:42), aperture:20, title:"", info:"", control:nil)
+        coachMarker?.registerMark(position:CGPoint(x:157,y:161), aperture:20, title:"", info:"", control:nil)
+        coachMarker?.registerMark(position:CGPoint(x:276,y:637), aperture:20, title:"", info:"", control:nil)
+        coachMarker?.registerMark(position:CGPoint(x:188,y:621), aperture:40, title:"", info:"", control:nil)
     }
 
     @IBAction func onTap(_ sender: Any) 
     {
-        marksView.isHidden = false
-        tempTextBox.alpha = 0
-        marksView.showCoachMark(tmpBox:tempTextBox)
+        coachMarker?.showNextMark()
     }
     
 }

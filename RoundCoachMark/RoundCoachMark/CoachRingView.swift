@@ -10,35 +10,28 @@ import UIKit
 
 class CoachRingView: UIView, CAAnimationDelegate
 {
-    public var ringGeometry:CoachRing?
-    //public var open:Bool = false {didSet{openRing(open)}}
-    
-    private var completionBlock:()->Void = {}
-    
-    override class var layerClass : AnyClass
-    {
-        return CMRingLayer.self
-    }
-    
-    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) 
-    {
-        if (anim as? CABasicAnimation)?.keyPath == "ringRadius"
-        {
-            completionBlock()
-        }
-    }
+// MARK: - INTERFACE
     
     public func openRing(_ open:Bool, completion:@escaping ()->Void)
     {
-        guard let ring = ringGeometry else {return}
         completionBlock = completion
+        
+        animateRing(open)
+        animateAperture(open)
+        animateEcho(open)
+    }
+    
+// MARK - ANIMATION ROUTINES
+    
+    private func animateRing(_ open:Bool)
+    {
+        guard let ring = ringGeometry else {return}
         let timing: CAMediaTimingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseOut)
-        let duration = 0.3
         let end_radius = open ? ring.radius : ring.controlRadius
         let beg_radius = open ? ring.controlRadius : ring.radius
         
         let opening = CABasicAnimation(keyPath: "ringRadius")
-        opening.duration = duration
+        opening.duration = ringPeriod
         opening.fillMode = kCAFillModeBoth
         opening.timingFunction = timing
         opening.fromValue = beg_radius
@@ -50,61 +43,151 @@ class CoachRingView: UIView, CAAnimationDelegate
         CATransaction.setDisableActions(true)
         (layer as! CMRingLayer).ringRadius = end_radius
         CATransaction.commit()
+    }
+    private func animateAperture(_ open:Bool)
+    {
+        guard let ring = ringGeometry else {return}
+        let timing: CAMediaTimingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         guard open
         else
         {
-            layer.removeAnimation(forKey:"pulse")
+            layer.removeAnimation(forKey:"apertureRadius")
+            (layer as! CMRingLayer).aperture = ring.controlRadius
             return
         }
         
-        let pulse = CABasicAnimation(keyPath: "controlRadius")
-        pulse.duration = duration
+        let pulse = CABasicAnimation(keyPath: "aperture")
+        pulse.duration = aperturePeriod
         pulse.autoreverses = true
         pulse.repeatCount = Float.infinity
         pulse.fillMode = kCAFillModeBoth
-        pulse.timingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseIn)
-        pulse.fromValue = beg_radius
-        pulse.toValue = beg_radius + 10
-        layer.add(pulse, forKey:"pulse")
+        pulse.timingFunction = timing
+        pulse.fromValue = ring.controlRadius
+        pulse.toValue = ring.controlRadius + apertureTravel
+        layer.add(pulse, forKey:"apertureRadius")
         
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        (layer as! CMRingLayer).controlRadius = beg_radius + 10
+        (layer as! CMRingLayer).aperture = ring.controlRadius + apertureTravel
         CATransaction.commit()
     }
+    private func animateEcho(_ open:Bool)
+    {
+        guard let ring = ringGeometry else {return}
+        let echo_timing: CAMediaTimingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionDefault)
+        let opacity_timing: CAMediaTimingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionLinear)
+        let duration = aperturePeriod*2
+        
+        guard open
+        else
+        {
+            layer.removeAnimation(forKey:"echoRadius")
+            layer.removeAnimation(forKey:"echoOpacity")
+            return
+        }
+        
+        let pulse = CABasicAnimation(keyPath: "echo")
+        pulse.duration = duration
+        pulse.repeatCount = Float.infinity
+        pulse.fillMode = kCAFillModeRemoved
+        pulse.timingFunction = echo_timing
+        pulse.fromValue = ring.controlRadius
+        pulse.toValue = ring.controlRadius + echoTravel
+        layer.add(pulse, forKey:"echoRadius")
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        (layer as! CMRingLayer).aperture = ring.controlRadius + echoTravel 
+        CATransaction.commit()
+        
+        let opacity = CABasicAnimation(keyPath: "echoOpacity")
+        opacity.duration = duration
+        opacity.repeatCount = Float.infinity
+        opacity.fillMode = kCAFillModeRemoved
+        opacity.timingFunction = opacity_timing
+        opacity.fromValue = echoBeginOpacity
+        opacity.toValue = echoEndOpacity
+        layer.add(opacity, forKey:"echoOpacity")
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        (layer as! CMRingLayer).echoOpacity = echoEndOpacity
+        CATransaction.commit()
+    }
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) 
+    {
+        if (anim as? CABasicAnimation)?.keyPath == "ringRadius" {completionBlock()}
+    }
+    
+// MARK: - DRAW
     
     override func draw(_ layer: CALayer, in ctx: CGContext)
     {
         guard let ring = ringGeometry else {return}
         let ring_radius = (layer as! CMRingLayer).ringRadius
-        let control_radius = (layer as! CMRingLayer).controlRadius
+        let control_radius = (layer as! CMRingLayer).aperture
+        let echo_radius = (layer as! CMRingLayer).echo
+        let echo_opacity = (layer as! CMRingLayer).echoOpacity
         UIGraphicsPushContext(ctx)
-        CoachMarkGeometry.drawCoachRing(controlRadius: control_radius, 
+        CoachMarkGeometry.drawCoachRing(ringColor: UIColor(red: 0.000, green: 0.387, blue: 0.742, alpha: 0.737),
+                                        controlRadius: control_radius, 
                                         controlCenter: ring.controlCenter, 
                                         ringRadius: ring_radius, 
                                         ringCenter: ring.center)
+        
+        CoachMarkGeometry.drawCoachRingEcho(ringEchoColor: UIColor.white, 
+                                            controlRadius: control_radius, 
+                                            ringRadius: echo_radius, 
+                                            ringCenter: ring.center, 
+                                            echoOpacity: echo_opacity)
         UIGraphicsPopContext()
     }
-
-        
-
+    
+// MARK: - SETUP AND BACKSTORE
+    
+    var ringGeometry:CoachRing?
+    
+    private var completionBlock:()->Void = {}
+    
+    override class var layerClass : AnyClass
+    {
+        return CMRingLayer.self
+    }
+    
+    // TODO: provide customization interface
+    private var ringPeriod:Double = 0.3
+    private var aperturePeriod:Double = 0.4
+    private var apertureTravel:CGFloat = 10
+    private var echoTravel:CGFloat = 30
+    private var echoBeginOpacity:CGFloat = 0.6
+    private var echoEndOpacity:CGFloat = 0.0
 }
+
+// MARK: - LAYER
 
 class CMRingLayer: CALayer
 {
     @NSManaged var ringRadius: CGFloat
-    @NSManaged var controlRadius: CGFloat
+    @NSManaged var aperture: CGFloat
+    @NSManaged var echo: CGFloat
+    @NSManaged var echoOpacity: CGFloat
     
     override class func needsDisplay(forKey key: (String!)) -> Bool
     {
-        if key == "ringRadius" || key == "controlRadius" {return true}
-        else                   {return super.needsDisplay(forKey: key)}
+        if key == "ringRadius" || 
+           key == "aperture"   ||
+           key == "echo"       ||
+           key == "echoOpacity"    {return true}
+        else                       {return super.needsDisplay(forKey: key)}
     }
     
     override func action(forKey event: (String!)) -> (CAAction!)
     {
-        if event == "ringRadius" || event == "controlRadius" 
+        if event == "ringRadius"  || 
+           event == "aperture"    ||
+           event == "echo"        ||
+           event == "echoOpacity"
         {
             let animation = CABasicAnimation.init(keyPath:event)
             animation.fromValue = presentation()?.value(forKey: event)
@@ -113,13 +196,13 @@ class CMRingLayer: CALayer
         return super.action(forKey: event)
     }
     
-// MARK: - CONSTRUCTORS
-    
     override init()
     {
         super.init()
         ringRadius = 0.0
-        controlRadius = 0.0
+        aperture = 0.0
+        echo = 0.0
+        echoOpacity = 1.0
     }
     override init(layer: Any)
     {
@@ -127,7 +210,9 @@ class CMRingLayer: CALayer
         if let layer = layer as? CMRingLayer 
         {
             ringRadius = layer.ringRadius
-            controlRadius = layer.controlRadius
+            aperture = layer.aperture
+            echo = layer.echo
+            echoOpacity = layer.echoOpacity
         }
     }
     required init?(coder aDecoder: NSCoder)
