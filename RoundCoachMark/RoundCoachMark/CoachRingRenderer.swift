@@ -9,16 +9,12 @@
 //  http://www.paintcodeapp.com
 //
 
-
-
 import UIKit
 
-public class CoachMarkGeometry : NSObject {
-
-    //// Drawing Methods
-
-    @objc dynamic public class func drawCoachRing(ringColor: UIColor = UIColor(red: 0.000, green: 0.387, blue: 0.742, alpha: 0.737), controlRadius: CGFloat = 20, controlCenter: CGPoint = CGPoint(x: 199, y: 137), ringRadius: CGFloat = 144, ringCenter: CGPoint = CGPoint(x: 179, y: 171)) {
-
+public class CoachRingRenderer : NSObject 
+{
+    @objc dynamic public class func drawCoachRing(ringColor: UIColor = UIColor(red: 0.000, green: 0.387, blue: 0.742, alpha: 0.737), controlRadius: CGFloat = 20, controlCenter: CGPoint = CGPoint(x: 199, y: 137), ringRadius: CGFloat = 144, ringCenter: CGPoint = CGPoint(x: 179, y: 171)) 
+    {
         //// Variable Declarations
         let controlFrame = CGRect(x: controlCenter.x - controlRadius, y: controlCenter.y - controlRadius, width: 2 * controlRadius, height: 2 * controlRadius)
         let ringFrame = CGRect(x: ringCenter.x - ringRadius, y: ringCenter.y - ringRadius, width: 2 * ringRadius, height: 2 * ringRadius)
@@ -48,10 +44,10 @@ public class CoachMarkGeometry : NSObject {
         bezierPath.fill()
     }
 
-    @objc dynamic public class func drawCoachRingEcho(ringEchoColor: UIColor = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000), controlRadius: CGFloat = 20, ringRadius: CGFloat = 144, ringCenter: CGPoint = CGPoint(x: 179, y: 171), echoOpacity: CGFloat = 0.491) {
+    @objc dynamic public class func drawCoachRingEcho(ringEchoColor: UIColor = UIColor(red: 1.000, green: 1.000, blue: 1.000, alpha: 1.000), controlRadius: CGFloat = 20, ringRadius: CGFloat = 144, ringCenter: CGPoint = CGPoint(x: 179, y: 171), echoOpacity: CGFloat = 0.491) 
+    {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()!
-
 
         //// Variable Declarations
         let ringFrame = CGRect(x: ringCenter.x - ringRadius, y: ringCenter.y - ringRadius, width: 2 * ringRadius, height: 2 * ringRadius)
@@ -60,7 +56,6 @@ public class CoachMarkGeometry : NSObject {
         //// Frames
         let frame = CGRect(x: ringFrame.minX, y: ringFrame.minY, width: ringFrame.width, height: ringFrame.height)
         let frame2 = CGRect(x: echoControlFrame.minX, y: echoControlFrame.minY, width: echoControlFrame.width, height: echoControlFrame.height)
-
 
         //// Bezier Drawing
         context.saveGState()
@@ -86,5 +81,4 @@ public class CoachMarkGeometry : NSObject {
 
         context.restoreGState()
     }
-
 }

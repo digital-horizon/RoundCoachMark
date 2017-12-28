@@ -10,7 +10,7 @@ import UIKit
 
 class CoachRingView: UIView, CAAnimationDelegate
 {
-// MARK: - INTERFACE
+// MARK: - CONTROL INTERFACE
     
     public func openRing(_ open:Bool, completion:@escaping ()->Void)
     {
@@ -130,13 +130,13 @@ class CoachRingView: UIView, CAAnimationDelegate
         let echo_radius = (layer as! CMRingLayer).echo
         let echo_opacity = (layer as! CMRingLayer).echoOpacity
         UIGraphicsPushContext(ctx)
-        CoachMarkGeometry.drawCoachRing(ringColor: UIColor(red: 0.000, green: 0.387, blue: 0.742, alpha: 0.737),
+        CoachRingRenderer.drawCoachRing(ringColor: ringMainColor,
                                         controlRadius: control_radius, 
                                         controlCenter: ring.controlCenter, 
                                         ringRadius: ring_radius, 
                                         ringCenter: ring.center)
         
-        CoachMarkGeometry.drawCoachRingEcho(ringEchoColor: UIColor.white, 
+        CoachRingRenderer.drawCoachRingEcho(ringEchoColor: ringEchoColor, 
                                             controlRadius: control_radius, 
                                             ringRadius: echo_radius, 
                                             ringCenter: ring.center, 
@@ -148,20 +148,22 @@ class CoachRingView: UIView, CAAnimationDelegate
     
     var ringGeometry:CoachRing?
     
+    var ringMainColor:UIColor = UIColor(red:0.000, green:0.387, blue:0.742, alpha: 0.8)
+    var ringEchoColor:UIColor = UIColor.white
+    
+    var ringPeriod:Double        = 0.3
+    var aperturePeriod:Double    = 0.4
+    var apertureTravel:CGFloat   = 10
+    var echoTravel:CGFloat       = 30
+    var echoBeginOpacity:CGFloat = 0.6
+    var echoEndOpacity:CGFloat   = 0.0
+    
     private var completionBlock:()->Void = {}
     
     override class var layerClass : AnyClass
     {
         return CMRingLayer.self
     }
-    
-    // TODO: provide customization interface
-    private var ringPeriod:Double = 0.3
-    private var aperturePeriod:Double = 0.4
-    private var apertureTravel:CGFloat = 10
-    private var echoTravel:CGFloat = 30
-    private var echoBeginOpacity:CGFloat = 0.6
-    private var echoEndOpacity:CGFloat = 0.0
 }
 
 // MARK: - LAYER

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension UIView 
+extension UIView 
 {
     func constrainFill(padding:CGPoint) 
     {
@@ -32,5 +32,30 @@ public extension UIView
         translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: superview!.centerXAnchor, constant: offset.x).isActive = true
         centerYAnchor.constraint(equalTo: superview!.centerYAnchor, constant:offset.y).isActive = true
+    }
+}
+
+extension String
+{
+    func calculateSize (for view:UITextView) ->CGSize
+    {
+        let insets = view.textContainerInset
+        let padding = view.textContainer.lineFragmentPadding * 2
+        let probe_size = CGSize(width:view.bounds.width - insets.left - insets.right - padding, height:CGFloat(MAXFLOAT))
+        let font = view.font ?? UIFont.systemFont(ofSize:10)
+        let size = self.boundingRect(with: probe_size,
+                                     options: NSStringDrawingOptions(rawValue: (NSStringDrawingOptions.usesLineFragmentOrigin.rawValue | NSStringDrawingOptions.usesFontLeading.rawValue)),
+                                     attributes: [NSAttributedStringKey.font:font],
+                                     context: nil).size
+        return CGSize(width:size.width,height:size.height + insets.top + insets.bottom)
+    }
+    func calculateSize(width:CGFloat, font:UIFont) ->CGSize
+    {
+        let probe_size = CGSize(width:width, height:CGFloat(MAXFLOAT))
+        let size = (self + "a").boundingRect(with: probe_size,
+                                             options: [NSStringDrawingOptions.usesLineFragmentOrigin,NSStringDrawingOptions.usesFontLeading],
+                                             attributes: [NSAttributedStringKey.font:font],
+                                             context: nil).size
+        return size
     }
 }

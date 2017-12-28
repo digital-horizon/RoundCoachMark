@@ -10,17 +10,37 @@ import UIKit
 
 class CoachMarksCanvas: UIView 
 {
-    var ringView:CoachRingView?
+// MARK: - MARK INFO
     
     var markInfo:CoachMarkInfoView?
     {
         didSet
         {
-            addSubview(markInfo as! UIView)
-            (markInfo as! UIView).constrainSize(markInfo?.viewSize ?? CGSize(width:100,height:100))
-            (markInfo as! UIView).constrainCenter(offset:markInfo?.centerOffset ?? CGPoint.zero)
+            resetMarkInfo()
             (markInfo as! UIView).alpha = 0
         }
+    }
+    private func resetMarkInfo()
+    {
+        guard let mark_info = markInfo as? UIView else {return}
+        mark_info.removeFromSuperview()
+        addSubview(mark_info)
+        let size = markInfo?.viewSize ?? CGSize(width:100,height:100)
+
+        if let info_h = infoViewH, let info_w = infoViewW
+        {
+            info_h.constant = size.height
+            info_w.constant = size.width
+            layoutIfNeeded()
+        }
+        else
+        {
+            infoViewH = mark_info.heightAnchor.constraint(equalToConstant: size.height)
+            infoViewW = mark_info.widthAnchor.constraint(equalToConstant: size.width)
+            infoViewH!.isActive = true
+            infoViewW!.isActive = true
+        }
+        mark_info.constrainCenter(offset:markInfo?.centerOffset ?? CGPoint.zero)
     }
     
 // MARK: - CONTROL INTERFACE
@@ -37,19 +57,25 @@ class CoachMarksCanvas: UIView
             })
             ringView = nil
             (markInfo as! UIView).alpha = 0
-            return
+            return 
         }
         show(mark)
     }
+    
     func show(_ mark:CoachMarker.MarkInfo)
     {
-        // TODO: replace info view if required by MarkInfo
-        let text_bb = (markInfo as! UIView).frame
+        if let info_view = mark.infoView    {markInfo = info_view}
+        if let (title,text) = mark.textInfo {markInfo?.setTextInfo(title:title, info:text);resetMarkInfo()}
+        if let info = mark.info             {markInfo?.setInfo(info);resetMarkInfo()}
+        layoutIfNeeded()
+        
+        let info_frame = (markInfo as! UIView).frame
         (markInfo as! UIView).alpha = 0
-        let ring = CoachRing(controlCenter:mark.position, controlRadius:mark.aperture, innerRect:text_bb, outerRect:self.bounds)//, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
+        let ring = CoachRing(controlCenter:mark.position, controlRadius:mark.aperture, innerRect:info_frame, outerRect:self.bounds)//, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
         ringView = CoachRingView(frame:self.bounds)
         ringView!.ringGeometry = ring
         ringView!.backgroundColor = UIColor.clear
+        resetRingViewParameters()
         insertSubview(ringView!, at:0)
         ringView?.openRing(true,completion:{(self.markInfo as! UIView).alpha = 1})
     }
@@ -68,6 +94,34 @@ class CoachMarksCanvas: UIView
             (markInfo as! UIView).alpha = 0
         }
     }
+    
+// MARK: - CUSTOMIZABLE PARAMETERS
+    
+    var ringView:CoachRingView?
+    var infoViewH:NSLayoutConstraint?
+    var infoViewW:NSLayoutConstraint?
+    
+    var ringMainColor:UIColor  = UIColor(red:0.000, green:0.387, blue:0.742, alpha: 0.8)
+    var ringEchoColor:UIColor  = UIColor.white
+    var ringPeriod:Double      = 0.3
+    var apPeriod:Double        = 0.4
+    var apTravel:CGFloat       = 10
+    var ecTravel:CGFloat       = 30
+    var ecBeginOpacity:CGFloat = 0.6
+    var ecEndOpacity:CGFloat   = 0.0
+    
+    private func resetRingViewParameters()
+    {
+        ringView?.ringMainColor    = ringMainColor
+        ringView?.ringEchoColor    = ringEchoColor
+        ringView?.ringPeriod       = ringPeriod
+        ringView?.aperturePeriod   = apPeriod
+        ringView?.apertureTravel   = apTravel
+        ringView?.echoTravel       = ecTravel
+        ringView?.echoBeginOpacity = ecBeginOpacity
+        ringView?.echoEndOpacity   = ecEndOpacity
+    }
+
     
 // MARK: - INIT
     

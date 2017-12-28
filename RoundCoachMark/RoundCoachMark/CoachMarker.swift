@@ -12,11 +12,11 @@ public class CoachMarker
 {
 // MARK: - INIT
     
-    public init(in container:UIView) 
+    public init(in container:UIView, infoPadding:CGFloat) 
     {
         marksContainer = container
         marksCanvas = CoachMarksCanvas(frame:container.bounds)
-        marksCanvas.markInfo = DefaultCoachMarkInfoView(frame:container.bounds)
+        marksCanvas.markInfo = DefaultCoachMarkInfoView(width:container.bounds.size.width - 2*infoPadding)
         setup()
     }
     public init(in container:UIView, infoView:CoachMarkInfoView) 
@@ -76,14 +76,12 @@ public class CoachMarker
     public func resetMarks()
     {
         marks.removeAll()
-        
         nextMarkIndex = 0
         DispatchQueue.main.async(execute:{NotificationCenter.default.post(name:Events.CoachMarkerMarksRequest, object:self)})
     }
     public func cleanup()
     {
         marksCanvas.removeCurrentMark(completion: {})
-        
     }
     public func destroy()
     {
@@ -93,13 +91,48 @@ public class CoachMarker
         }
     }
     
+// MARK: - CUSTOMIZATION INTERFACE
+    
+    public var defaultInfoViewTitleFont:UIFont = UIFont.systemFont(ofSize:20)
+    {
+        didSet{getCurrentInfoView()?.setTitleStyle(font: defaultInfoViewTitleFont, color: defaultInfoViewTitleColor)}
+    }
+    public var defaultInfoViewTextFont:UIFont = UIFont.systemFont(ofSize:16)
+    {
+        didSet{getCurrentInfoView()?.setTitleStyle(font: defaultInfoViewTitleFont, color: defaultInfoViewTitleColor)}
+    }
+    public var defaultInfoViewTitleColor:UIColor = UIColor.white
+    {
+        didSet{getCurrentInfoView()?.setTitleStyle(font: defaultInfoViewTitleFont, color: defaultInfoViewTitleColor)}
+    }
+    public var defaultInfoViewTextColor:UIColor = UIColor.white
+    {
+        didSet{getCurrentInfoView()?.setTitleStyle(font: defaultInfoViewTitleFont, color: defaultInfoViewTitleColor)}
+    }
+    public func setColors(main:UIColor, echo:UIColor) 
+    {
+        marksCanvas.ringMainColor=main
+        marksCanvas.ringEchoColor=echo;
+    }
+    public func setDynamics(mainPeriod:Double, aperturePeriod:Double, echoTravel:CGFloat) 
+    {
+        marksCanvas.ringPeriod=mainPeriod
+        marksCanvas.apPeriod=aperturePeriod
+        marksCanvas.ecTravel=echoTravel
+    }
+    public func setEcho(beginOpacity:CGFloat, endOpacity:CGFloat)
+    {
+        marksCanvas.ecBeginOpacity=beginOpacity
+        marksCanvas.ecEndOpacity=endOpacity
+    }
+    
 // MARK: - ACCESS INTERFACE
     
     public func getCurrentInfoView() ->CoachMarkInfoView? {return marksCanvas.markInfo}
     public func getMarksCount() ->Int                     {return marks.count}
     public func getMark(at index:Int) ->MarkInfo?         {return (marks.count==0 ? nil : (index<0 ? marks.first : (index>=marks.count ? marks.last : marks[index])))}
     
-// MARK: - PRPERTIES
+// MARK: - PROPERTIES
     
     weak var marksContainer:UIView?
     var marksCanvas:CoachMarksCanvas
@@ -130,8 +163,11 @@ public protocol CoachMarkInfoView: class
     var viewSize:CGSize      {get}
     var centerOffset:CGPoint {get}
     
-    func setTextInfo(title:String, info:String)
     func setInfo(_ info:Any)
+    
+    func setTextInfo(title:String, info:String)
+    func setTitleStyle(font:UIFont, color:UIColor)
+    func setInfoStyle(font:UIFont, color:UIColor)
 }
 
 extension CoachMarkInfoView where Self: UIView{}

@@ -11,7 +11,7 @@
 		279F611D1FE1602C0017C62A /* RoundCoachMarkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F611C1FE1602C0017C62A /* RoundCoachMarkTests.swift */; };
 		279F611F1FE1602C0017C62A /* RoundCoachMark.h in Headers */ = {isa = PBXBuildFile; fileRef = 279F61111FE1602C0017C62A /* RoundCoachMark.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E90D3EF51FE2A6C900432BA2 /* CoachRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90D3EF41FE2A6C900432BA2 /* CoachRingView.swift */; };
-		E90D3EF71FE2B13100432BA2 /* CoachMarkGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90D3EF61FE2B13100432BA2 /* CoachMarkGeometry.swift */; };
+		E90D3EF71FE2B13100432BA2 /* CoachRingRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90D3EF61FE2B13100432BA2 /* CoachRingRenderer.swift */; };
 		E92D33921FE18DBE00CC8D3F /* CoachMarksCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D33911FE18DBE00CC8D3F /* CoachMarksCanvas.swift */; };
 		E92D33941FE1CC8300CC8D3F /* CoachRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E92D33931FE1CC8300CC8D3F /* CoachRing.swift */; };
 		E936DCC91FE6A4B7002753AC /* CoachMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E936DCC81FE6A4B7002753AC /* CoachMarker.swift */; };
@@ -37,7 +37,7 @@
 		279F611C1FE1602C0017C62A /* RoundCoachMarkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundCoachMarkTests.swift; sourceTree = "<group>"; };
 		279F611E1FE1602C0017C62A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E90D3EF41FE2A6C900432BA2 /* CoachRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachRingView.swift; sourceTree = "<group>"; };
-		E90D3EF61FE2B13100432BA2 /* CoachMarkGeometry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachMarkGeometry.swift; sourceTree = "<group>"; };
+		E90D3EF61FE2B13100432BA2 /* CoachRingRenderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoachRingRenderer.swift; sourceTree = "<group>"; };
 		E92D33911FE18DBE00CC8D3F /* CoachMarksCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarksCanvas.swift; sourceTree = "<group>"; };
 		E92D33931FE1CC8300CC8D3F /* CoachRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachRing.swift; sourceTree = "<group>"; };
 		E936DCC81FE6A4B7002753AC /* CoachMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachMarker.swift; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 				279F61121FE1602C0017C62A /* Info.plist */,
 				279F61111FE1602C0017C62A /* RoundCoachMark.h */,
 				E936DCC81FE6A4B7002753AC /* CoachMarker.swift */,
-				E90D3EF61FE2B13100432BA2 /* CoachMarkGeometry.swift */,
+				E90D3EF61FE2B13100432BA2 /* CoachRingRenderer.swift */,
 				E92D33911FE18DBE00CC8D3F /* CoachMarksCanvas.swift */,
 				E92D33931FE1CC8300CC8D3F /* CoachRing.swift */,
 				E90D3EF41FE2A6C900432BA2 /* CoachRingView.swift */,
@@ -224,7 +224,7 @@
 				E936DCCB1FE6AD9D002753AC /* DefaultCoachMarkInfoView.swift in Sources */,
 				E90D3EF51FE2A6C900432BA2 /* CoachRingView.swift in Sources */,
 				E936DCC91FE6A4B7002753AC /* CoachMarker.swift in Sources */,
-				E90D3EF71FE2B13100432BA2 /* CoachMarkGeometry.swift in Sources */,
+				E90D3EF71FE2B13100432BA2 /* CoachRingRenderer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
