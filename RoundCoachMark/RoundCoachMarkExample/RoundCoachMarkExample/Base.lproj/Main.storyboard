@@ -1,62 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d90-tk-KSY">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Simple CoachMarker Demo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="RoundCoachMarkExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SimpleCoachMarkerDemoVC" customModule="RoundCoachMarkExample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="P06-1N-nPR">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tkI-pG-tY0">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6EQ-S8-00W">
+                                <rect key="frame" x="168.5" y="537" width="38" height="30"/>
+                                <state key="normal" title="HELP"/>
+                                <connections>
+                                    <action selector="onReset:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oOM-Gi-y1F"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tqL-Sn-Dul">
+                                <rect key="frame" x="36" y="94" width="34" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="34" id="1PX-AD-FwE"/>
+                                    <constraint firstAttribute="height" constant="34" id="MaY-mT-HFe"/>
+                                </constraints>
+                                <state key="normal" image="menu-help"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NAA-2B-FBq">
+                                <rect key="frame" x="305" y="94" width="34" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="34" id="b1I-ek-1Tk"/>
+                                    <constraint firstAttribute="height" constant="34" id="g4w-7C-jWb"/>
+                                </constraints>
+                                <state key="normal" image="menu-friends"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vkq-vt-gsB">
+                                <rect key="frame" x="36" y="603" width="34" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="CHd-XK-7tA"/>
+                                    <constraint firstAttribute="width" constant="34" id="EbZ-CK-263"/>
+                                </constraints>
+                                <state key="normal" image="menu-profile"/>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input something" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="ZuH-QH-Xl7">
+                                <rect key="frame" x="36" y="160" width="303" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="input something" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="wFi-xi-X6y">
+                                <rect key="frame" x="36" y="206" width="303" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="P06-1N-nPR" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9YR-68-ENe"/>
-                            <constraint firstItem="P06-1N-nPR" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="9fG-TF-Ar4"/>
-                            <constraint firstItem="tkI-pG-tY0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="MQc-m4-wWo"/>
-                            <constraint firstAttribute="trailing" secondItem="P06-1N-nPR" secondAttribute="trailing" id="QBl-Wf-OZc"/>
-                            <constraint firstAttribute="bottom" secondItem="tkI-pG-tY0" secondAttribute="bottom" id="gdn-ur-AYe"/>
-                            <constraint firstAttribute="trailing" secondItem="tkI-pG-tY0" secondAttribute="trailing" id="gh5-tC-wHv"/>
-                            <constraint firstAttribute="bottom" secondItem="P06-1N-nPR" secondAttribute="bottom" id="h79-H0-jBd"/>
-                            <constraint firstItem="tkI-pG-tY0" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="pTJ-vG-mk8"/>
+                            <constraint firstItem="ZuH-QH-Xl7" firstAttribute="leading" secondItem="wFi-xi-X6y" secondAttribute="leading" id="0Wq-cp-e17"/>
+                            <constraint firstItem="ZuH-QH-Xl7" firstAttribute="top" secondItem="tqL-Sn-Dul" secondAttribute="bottom" constant="32" id="3Iv-AB-xXz"/>
+                            <constraint firstItem="ZuH-QH-Xl7" firstAttribute="leading" secondItem="tqL-Sn-Dul" secondAttribute="leading" id="5s3-6p-XD5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6EQ-S8-00W" secondAttribute="bottom" constant="100" id="BTS-M4-m7K"/>
+                            <constraint firstItem="NAA-2B-FBq" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" constant="-20" id="FwB-M0-IWF"/>
+                            <constraint firstItem="ZuH-QH-Xl7" firstAttribute="trailing" secondItem="wFi-xi-X6y" secondAttribute="trailing" id="Kcf-2D-0lg"/>
+                            <constraint firstItem="tqL-Sn-Dul" firstAttribute="leading" secondItem="Vkq-vt-gsB" secondAttribute="leading" id="X00-M9-3o3"/>
+                            <constraint firstItem="tqL-Sn-Dul" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="amk-xB-8VV"/>
+                            <constraint firstItem="6EQ-S8-00W" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bRi-yZ-2h0"/>
+                            <constraint firstItem="ZuH-QH-Xl7" firstAttribute="trailing" secondItem="NAA-2B-FBq" secondAttribute="trailing" id="lZ4-X6-6bO"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Vkq-vt-gsB" secondAttribute="bottom" constant="30" id="ovk-bi-ip2"/>
+                            <constraint firstItem="tqL-Sn-Dul" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="20" id="pvu-6z-8ZG"/>
+                            <constraint firstItem="wFi-xi-X6y" firstAttribute="top" secondItem="ZuH-QH-Xl7" secondAttribute="bottom" constant="16" id="qhT-Qr-BTe"/>
+                            <constraint firstItem="tqL-Sn-Dul" firstAttribute="baseline" secondItem="NAA-2B-FBq" secondAttribute="baseline" id="xvn-LF-NOa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <connections>
-                            <outletCollection property="gestureRecognizers" destination="r0d-Pk-FuG" appends="YES" id="pVl-Df-aTM"/>
-                        </connections>
                     </view>
+                    <navigationItem key="navigationItem" title="Simple CoachMarker Demo" id="2ZD-o3-cHc">
+                        <barButtonItem key="rightBarButtonItem" systemItem="fastForward" id="MIL-6d-dEA">
+                            <color key="tintColor" red="0.24313725489999999" green="0.19215686269999999" blue="0.34509803919999998" alpha="0.5" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <segue destination="ZCI-mV-boS" kind="show" id="M1U-Ol-Dn2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="marksContainer" destination="tkI-pG-tY0" id="uFb-Cg-Z35"/>
+                        <outlet property="helpButton" destination="6EQ-S8-00W" id="mPB-Bn-oDu"/>
+                        <outlet property="marksContainer" destination="tkI-pG-tY0" id="Jpx-rE-nK4"/>
+                        <outlet property="tstButton0" destination="tqL-Sn-Dul" id="ypA-Ae-71Q"/>
+                        <outlet property="tstButton1" destination="NAA-2B-FBq" id="7ui-vw-Msi"/>
+                        <outlet property="tstButton2" destination="Vkq-vt-gsB" id="vM7-yc-VL4"/>
+                        <outlet property="tstField0" destination="ZuH-QH-Xl7" id="d3y-uk-fIT"/>
+                        <outlet property="tstField1" destination="wFi-xi-X6y" id="DJZ-eo-Ica"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="tkI-pG-tY0">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <viewLayoutGuide key="safeArea" id="Km0-DB-XCT"/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="r0d-Pk-FuG" appends="YES" id="eu7-lb-mA4"/>
+                    </connections>
+                </view>
                 <tapGestureRecognizer id="r0d-Pk-FuG">
                     <connections>
                         <action selector="onTap:" destination="BYZ-38-t0r" id="mh1-Ij-x37"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
+            <point key="canvasLocation" x="480.80000000000001" y="133.5832083958021"/>
+        </scene>
+        <!--Complex CoachMarker Demo-->
+        <scene sceneID="Pdk-D0-fih">
+            <objects>
+                <viewController id="ZCI-mV-boS" customClass="ComplexCoachMarkerDemoVC" customModule="RoundCoachMarkExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oH6-qq-Fhe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="bOm-Y5-pyk"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Complex CoachMarker Demo" id="H9y-Tx-Xa5">
+                        <barButtonItem key="leftBarButtonItem" systemItem="rewind" id="mZL-Y5-9Zm">
+                            <color key="tintColor" red="0.24313725489999999" green="0.19215686269999999" blue="0.34509803919999998" alpha="0.5" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="onBack:" destination="ZCI-mV-boS" id="vkQ-We-Z8c"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iNu-Ef-4XS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1351" y="134"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="zMZ-SV-0uy">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="d90-tk-KSY" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="LXx-Nv-PMy">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="LlQ-Uo-eAe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fLt-gZ-VsQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-306" y="134"/>
         </scene>
     </scenes>
     <resources>
-        <image name="back" width="375" height="667"/>
+        <image name="menu-friends" width="24" height="24"/>
+        <image name="menu-help" width="24" height="24"/>
+        <image name="menu-profile" width="24" height="24"/>
     </resources>
 </document>

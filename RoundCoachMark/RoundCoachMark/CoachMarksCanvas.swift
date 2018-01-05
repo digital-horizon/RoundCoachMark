@@ -45,7 +45,7 @@ class CoachMarksCanvas: UIView
     
 // MARK: - CONTROL INTERFACE
     
-    func replaceCurrentMark(with mark:CoachMarker.MarkInfo)
+    func replaceCurrentMark(with mark:CoachMarker.MarkInfo, completion:@escaping ()->Void)
     {
         if let ring = ringView
         {
@@ -53,16 +53,16 @@ class CoachMarksCanvas: UIView
             completion:
             { [weak self] in
                 ring.removeFromSuperview()
-                self?.show(mark)
+                self?.show(mark,completion:completion)
             })
             ringView = nil
             (markInfo as! UIView).alpha = 0
             return 
         }
-        show(mark)
+        show(mark,completion:completion)
     }
     
-    func show(_ mark:CoachMarker.MarkInfo)
+    func show(_ mark:CoachMarker.MarkInfo,completion:@escaping ()->Void)
     {
         if let info_view = mark.infoView    {markInfo = info_view}
         if let (title,text) = mark.textInfo {markInfo?.setTextInfo(title:title, info:text);resetMarkInfo()}
@@ -71,13 +71,18 @@ class CoachMarksCanvas: UIView
         
         let info_frame = (markInfo as! UIView).frame
         (markInfo as! UIView).alpha = 0
-        let ring = CoachRing(controlCenter:mark.position, controlRadius:mark.aperture, innerRect:info_frame, outerRect:self.bounds)//, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
+        let ring = CoachRing(controlCenter:mark.position, controlRadius:mark.aperture/2, innerRect:info_frame, outerRect:self.bounds)//, excenterShift:CGPoint(x:0,y:-20), excenterRadius:nil)
         ringView = CoachRingView(frame:self.bounds)
         ringView!.ringGeometry = ring
         ringView!.backgroundColor = UIColor.clear
         resetRingViewParameters()
         insertSubview(ringView!, at:0)
-        ringView?.openRing(true,completion:{(self.markInfo as! UIView).alpha = 1})
+        ringView?.openRing(true,
+        completion:
+        {
+            (self.markInfo as! UIView).alpha = 1
+            completion()
+        })
     }
     
     func removeCurrentMark(completion:@escaping ()->Void)
@@ -92,6 +97,10 @@ class CoachMarksCanvas: UIView
             })
             ringView = nil
             (markInfo as! UIView).alpha = 0
+        }
+        else
+        {
+            completion()
         }
     }
     
