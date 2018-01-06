@@ -9,17 +9,19 @@
 import UIKit
 import RoundCoachMark
 
-class SimpleCoachMarkerDemoVC: UIViewController 
+class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate 
 {
     @IBOutlet var marksContainer: UIView!
     
-    @IBOutlet weak var helpButton: UIButton!
     @IBOutlet weak var tstButton0: UIButton!
     @IBOutlet weak var tstButton1: UIButton!
     @IBOutlet weak var tstButton2: UIButton!
     
     @IBOutlet weak var tstField0: UITextField!
     @IBOutlet weak var tstField1: UITextField!
+    
+    @IBOutlet weak var helpButton: UIButton!
+    @IBOutlet weak var helpButtonB: NSLayoutConstraint!
     
     private var coachMarker:CoachMarker?
     private var markHandlers = [CoachMarkHandler]()
@@ -31,6 +33,7 @@ class SimpleCoachMarkerDemoVC: UIViewController
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupView()
+        setupKeyboard()
     }
     
     private func setupView()
@@ -39,6 +42,8 @@ class SimpleCoachMarkerDemoVC: UIViewController
         tstField1.leftView = UIImageView(image:UIImage(named: "menu-support"))
         tstField0.leftViewMode = .always
         tstField1.leftViewMode = .always
+        tstField0.delegate = self
+        tstField1.delegate = self
     }
     
     private func createCoachMarker()
@@ -56,6 +61,8 @@ class SimpleCoachMarkerDemoVC: UIViewController
         
         showMarks = true
     }
+    
+// MARK: - ADD MARKS
 
     private func addMarks() 
     {
@@ -134,19 +141,55 @@ class SimpleCoachMarkerDemoVC: UIViewController
         }
     }
 
-// MARK: - HANDLERS
+// MARK: - BUTTON HANDLERS
     
     @IBAction func onReset(_ sender: Any) 
     {
         guard !showMarks else {return}
-        view.layoutIfNeeded()
+        marksCount = nil
+        keyboardDown()
+
         createCoachMarker()
         addMarks()
-        marksCount = nil
         onTap(self)
     }
     
+// MARK: - TEXT FIELDS and KEYBOARD
+    
+    private func setupKeyboard()
+    {
+        NotificationCenter.default.addObserver(self, selector:#selector(onKeyboardUpDn), name:Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool
+    {
+        textField.resignFirstResponder()
+        return true
+    }
+    @objc func onKeyboardUpDn(nc:Notification)
+    {
+        guard let userInfo = nc.userInfo,
+            let keyboardEndFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect,
+            let keyboardBeginFrame = userInfo[UIKeyboardFrameBeginUserInfoKey] as? CGRect,
+            let animationDuration:TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double
+            else {return}
+        
+        let animationCurve:UIViewAnimationCurve = UIViewAnimationCurve(rawValue: (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).intValue) ?? .linear
+        let keyboard_up = keyboardEndFrame.origin.y <= keyboardBeginFrame.origin.y
+        helpButtonB.constant = keyboard_up ? keyboardEndFrame.size.height + 8 : 100
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(animationDuration)
+        UIView.setAnimationCurve(animationCurve)
+        view.layoutIfNeeded()
+        UIView.commitAnimations()
+    }
+    private func keyboardDown()
+    {
+        if tstField0.isEditing {tstField0.resignFirstResponder()}
+        if tstField1.isEditing {tstField1.resignFirstResponder()}
+    }
 }
+
 
 extension UIView 
 {
@@ -159,7 +202,6 @@ extension UIView
         topAnchor.constraint(equalTo: superview!.topAnchor, constant: padding.y).isActive = true
         trailingAnchor.constraint(equalTo: superview!.trailingAnchor, constant: padding.x).isActive = true
         bottomAnchor.constraint(equalTo: superview!.bottomAnchor, constant: padding.y).isActive = true
-        layoutIfNeeded()
     }
 }
 

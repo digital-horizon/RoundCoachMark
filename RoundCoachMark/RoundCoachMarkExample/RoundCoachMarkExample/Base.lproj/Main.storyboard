@@ -93,6 +93,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="helpButton" destination="6EQ-S8-00W" id="mPB-Bn-oDu"/>
+                        <outlet property="helpButtonB" destination="BTS-M4-m7K" id="4Oo-k6-e02"/>
                         <outlet property="marksContainer" destination="tkI-pG-tY0" id="Jpx-rE-nK4"/>
                         <outlet property="tstButton0" destination="tqL-Sn-Dul" id="ypA-Ae-71Q"/>
                         <outlet property="tstButton1" destination="NAA-2B-FBq" id="7ui-vw-Msi"/>
