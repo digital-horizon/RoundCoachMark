@@ -42,7 +42,7 @@ public class CoachMarker
         the_container.addSubview(marksCanvas)
         marksCanvas.constrainFill(padding: CGPoint.zero)
         the_container.layoutIfNeeded()
-        DispatchQueue.main.async(execute:{NotificationCenter.default.post(name:Events.CoachMarkerMarksRequest, object:self)})
+        NotificationCenter.default.post(name:Events.CoachMarkerMarksRequest, object:self)
     }
     deinit 
     {
@@ -69,6 +69,17 @@ public class CoachMarker
         }
         return handler
     }
+    static public func registerMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat = 0, control:UIView) ->CoachMarkHandler
+    {
+        let handler = CoachMarkHandler()
+        handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
+        { note in
+            guard let marker = note.object as? CoachMarker else {return}
+            marker.addMark(title:title, info:info, centerShift:centerShift, aperture:aperture, control:control)
+        }
+        return handler
+    }
+    
     static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any, control:Any? = nil) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
@@ -105,7 +116,7 @@ public class CoachMarker
         let mark = MarkInfo(position:position, aperture:aperture, control:control, textInfo:(title,info), info:nil, infoView:nil)
         marks.append(mark)
     }
-    public func addMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat, control:UIView)
+    public func addMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat = 0, control:UIView)
     {
         guard let control_superview = control.superview else 
         {
@@ -113,21 +124,11 @@ public class CoachMarker
             return 
         }
         let position = marksCanvas.convert(control.center, from:control_superview).applying(CGAffineTransform.identity.translatedBy(x: centerShift.x, y: centerShift.y))
-        let mark = MarkInfo(position:position, aperture:aperture, control:control, textInfo:(title,info), info:nil, infoView:nil)
+        let the_aperture = aperture > 0 ? aperture : max(control.bounds.size.width, control.bounds.size.height) + 6
+        let mark = MarkInfo(position:position, aperture:the_aperture, control:control, textInfo:(title,info), info:nil, infoView:nil)
         marks.append(mark)
     }
-    public func addMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, control:UIView)
-    {
-        guard let control_superview = control.superview else 
-        {
-            print("The control's view is not in hierarchy. The mark cannot be aded")
-            return 
-        }
-        let position = marksCanvas.convert(control.center, from:control_superview).applying(CGAffineTransform.identity.translatedBy(x: centerShift.x, y: centerShift.y))
-        let aperture = max(control.bounds.size.width, control.bounds.size.height) + 6
-        let mark = MarkInfo(position:position, aperture:aperture, control:control, textInfo:(title,info), info:nil, infoView:nil)
-        marks.append(mark)
-    }
+
     
     
     public func addMark(position:CGPoint, aperture:CGFloat, info:Any, control:Any? = nil)

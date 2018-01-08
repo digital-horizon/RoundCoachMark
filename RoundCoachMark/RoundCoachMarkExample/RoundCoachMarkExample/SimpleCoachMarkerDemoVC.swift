@@ -16,6 +16,7 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
     @IBOutlet weak var tstButton0: UIButton!
     @IBOutlet weak var tstButton1: UIButton!
     @IBOutlet weak var tstButton2: UIButton!
+    @IBOutlet weak var modalOutButton: UIButton!
     
     @IBOutlet weak var tstField0: UITextField!
     @IBOutlet weak var tstField1: UITextField!
@@ -24,7 +25,6 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
     @IBOutlet weak var helpButtonB: NSLayoutConstraint!
     
     private var coachMarker:CoachMarker?
-    private var markHandlers = [CoachMarkHandler]()
     
 // MARK: - SETUP
     
@@ -44,13 +44,23 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
         tstField1.leftViewMode = .always
         tstField0.delegate = self
         tstField1.delegate = self
+        if navigationController != nil {modalOutButton.isHidden = true}
     }
     
     private func createCoachMarker()
     {
-        navigationController!.view.addSubview(marksContainer)
-        marksContainer.constrainFill(padding:CGPoint.zero)
-        navigationController!.view.layoutIfNeeded()
+        if let nav_controller = navigationController
+        {
+            nav_controller.view.addSubview(marksContainer)
+            marksContainer.constrainFill(padding:CGPoint.zero)
+            nav_controller.view.layoutIfNeeded()
+        }
+        else 
+        {
+            self.view.addSubview(marksContainer)
+            marksContainer.constrainFill(padding:CGPoint.zero)
+            self.view.layoutIfNeeded()
+        }
         
         coachMarker = CoachMarker(in:marksContainer, infoPadding:20)
         
@@ -110,6 +120,11 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
             let ape_i = clear_rect.size.width + 6
             coachMarker?.addMark(title:"Field's clear button", info:"The field contains a text and clear button is visible. Tap it and next time this mark won't be shown!", position:pos_i, aperture:ape_i, control:nil)
         }
+        
+        if navigationController == nil 
+        {
+            coachMarker?.addMark(title:"Get out of here!", info:"If you see this, you are in modal mode of simple demo controller you've already seen before. To close it and return to complex demo tap this button.", control:modalOutButton)
+        }
 
         coachMarker?.addMark(title:"HELP is better than dosens of fancy icons!", info:"Use HELP button to restart this simple CoachMarker demo. Once started CoachMarker will show all added marks one after another, but it's not its inate behavior. You control what to show from outside code.", control:helpButton)
     }
@@ -128,7 +143,6 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
             coachMarker?.destroy 
             {
                 self.marksContainer.removeFromSuperview()
-                self.markHandlers.removeAll()
             }
             showMarks = false
         }
@@ -152,6 +166,10 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
         createCoachMarker()
         addMarks()
         onTap(self)
+    }
+    @IBAction func onModalOut(_ sender: Any) 
+    {
+        dismiss(animated:true, completion:nil)
     }
     
 // MARK: - TEXT FIELDS and KEYBOARD
