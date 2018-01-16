@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
     :git => "https://github.com/GPBDigital/RoundCoachMark.git", 
     :tag => s.version.to_s
   }
-  
-  s.source_files = 'RoundCoachMark/RoundCoachMark/*.{h,m,swift}'
+
+  s.source_files = 'RoundCoachMark/RoundCoachMark/*.{h,m,swift,plist}'
   s.requires_arc = true
   s.framework = 'UIKit'
 end
