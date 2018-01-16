@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.name         = "RoundCoachMark"
   s.version      = "1.0.0"
   s.summary      = "Useful tools for round coachmarks"
-  s.homepage     = "https://github.com/frankmoney/EasyRecord"
+  s.homepage     = "https://gpbdigital.com/"
   s.license      = 'MIT'
 
   s.author       = { 
