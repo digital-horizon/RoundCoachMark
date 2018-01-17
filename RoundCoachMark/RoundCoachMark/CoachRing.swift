@@ -17,7 +17,7 @@ public struct CoachRing
     
     static let contentInset:CGFloat = 20
     
-    public init?(controlCenter c:CGPoint, controlRadius cr:CGFloat, innerRect ir:CGRect, outerRect or:CGRect, overlappingAllowed:Bool = false, excenterShift:CGPoint? = nil, excenterRadius:CGFloat? = nil) 
+    public init?(controlCenter c:CGPoint, controlRadius cr:CGFloat, innerRect ir:CGRect, outerRect or:CGRect, overlappingAllowed:Bool = true, excenterShift:CGPoint? = nil, excenterRadius:CGFloat? = nil) 
     {
         let cd = 2*cr
         if !overlappingAllowed

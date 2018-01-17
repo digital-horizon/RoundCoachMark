@@ -8,38 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		279F61351FE161980017C62A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F61341FE161980017C62A /* AppDelegate.swift */; };
-		279F61371FE161980017C62A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F61361FE161980017C62A /* ViewController.swift */; };
+		279F61371FE161980017C62A /* SimpleCoachMarkerDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 279F61361FE161980017C62A /* SimpleCoachMarkerDemoVC.swift */; };
 		279F613A1FE161980017C62A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 279F61381FE161980017C62A /* Main.storyboard */; };
 		279F613C1FE161980017C62A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 279F613B1FE161980017C62A /* Assets.xcassets */; };
 		279F613F1FE161980017C62A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 279F613D1FE161980017C62A /* LaunchScreen.storyboard */; };
-		E92D33A31FE1E85700CC8D3F /* RoundCoachMark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */; };
-		E92D33A41FE1E85700CC8D3F /* RoundCoachMark.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E971AFF81FFD30A6004FC563 /* RoundCoachMark.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E971AFF91FFD30A6004FC563 /* RoundCoachMark.framework */; };
+		E97386311FFE7D1E008CA2D2 /* ComplexCoachMarkerDemoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97386301FFE7D1E008CA2D2 /* ComplexCoachMarkerDemoVC.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		E92D33A01FE1E7FD00CC8D3F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				E92D33A41FE1E85700CC8D3F /* RoundCoachMark.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		279F61311FE161980017C62A /* RoundCoachMarkExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoundCoachMarkExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		279F61341FE161980017C62A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		279F61361FE161980017C62A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		279F61361FE161980017C62A /* SimpleCoachMarkerDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleCoachMarkerDemoVC.swift; sourceTree = "<group>"; };
 		279F61391FE161980017C62A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		279F613B1FE161980017C62A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		279F613E1FE161980017C62A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		279F61401FE161980017C62A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E92D33A11FE1E82900CC8D3F /* RoundCoachMark.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RoundCoachMark.framework; path = "../../../../../../../Users/Choock/Library/Developer/Xcode/DerivedData/RoundCoachMark-dlxidpekalueewcbadgthzkatjpw/Build/Products/Debug-iphoneos/RoundCoachMark.framework"; sourceTree = "<group>"; };
 		E92D33A21FE1E85700CC8D3F /* RoundCoachMark.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RoundCoachMark.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E971AFF91FFD30A6004FC563 /* RoundCoachMark.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RoundCoachMark.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97386301FFE7D1E008CA2D2 /* ComplexCoachMarkerDemoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexCoachMarkerDemoVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E92D33A31FE1E85700CC8D3F /* RoundCoachMark.framework in Frameworks */,
+				E971AFF81FFD30A6004FC563 /* RoundCoachMark.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +64,8 @@
 			isa = PBXGroup;
 			children = (
 				279F61341FE161980017C62A /* AppDelegate.swift */,
-				279F61361FE161980017C62A /* ViewController.swift */,
+				279F61361FE161980017C62A /* SimpleCoachMarkerDemoVC.swift */,
+				E97386301FFE7D1E008CA2D2 /* ComplexCoachMarkerDemoVC.swift */,
 				279F61381FE161980017C62A /* Main.storyboard */,
 				279F613B1FE161980017C62A /* Assets.xcassets */,
 				279F613D1FE161980017C62A /* LaunchScreen.storyboard */,
@@ -88,6 +77,7 @@
 		E92D33981FE1E74F00CC8D3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E971AFF91FFD30A6004FC563 /* RoundCoachMark.framework */,
 				E92D33A11FE1E82900CC8D3F /* RoundCoachMark.framework */,
 			);
 			name = Frameworks;
@@ -103,7 +93,6 @@
 				279F612D1FE161980017C62A /* Sources */,
 				279F612E1FE161980017C62A /* Frameworks */,
 				279F612F1FE161980017C62A /* Resources */,
-				E92D33A01FE1E7FD00CC8D3F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -166,7 +155,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				279F61371FE161980017C62A /* ViewController.swift in Sources */,
+				279F61371FE161980017C62A /* SimpleCoachMarkerDemoVC.swift in Sources */,
+				E97386311FFE7D1E008CA2D2 /* ComplexCoachMarkerDemoVC.swift in Sources */,
 				279F61351FE161980017C62A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
