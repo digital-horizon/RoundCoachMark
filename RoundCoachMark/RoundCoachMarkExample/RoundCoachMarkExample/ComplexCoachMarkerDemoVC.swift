@@ -32,7 +32,7 @@ class ComplexCoachMarkerDemoVC: UIViewController
     override func viewWillDisappear(_ animated: Bool) 
     {
         super.viewWillDisappear(animated)
-        unregisterMarks()
+        coachMarker?.destroy{}
     }
 
 // MARK: - MARKER AND MARKS
@@ -54,15 +54,14 @@ class ComplexCoachMarkerDemoVC: UIViewController
     }
     func registerMarks()
     {
-        markHandlers.append(CoachMarker.registerMark(title:"Show modal view controller", info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.", control:showmodalButton))
-    }
-    func unregisterMarks()
-    {
-        markHandlers.forEach 
-        { handler in
-            CoachMarker.unregisterMark(handler)
-        }
-        markHandlers.removeAll()
+        // This is the preferable way to do mark registrartion: by default mark is registered with autorelease == true, as result the handler
+        // is stored by the CoachMarker internally. Destruction of the CoachMarker automatically unregisters all marks, and this is the most appropriate
+        // scenario for tutorials when marks are only shown once on an app first start.
+        // It's important to understand that autorelease marks can only be unregistered by a CoachMarker on it's destruction, so if you register such marks
+        // but never started CoachMarker they'll never be unregistered/
+        // Of course, it is fine to re-register the autoreleased marks and start CoachMarker again.
+        // In this example marks on the ComplexCoachMarkerDemoVC are unregistered on the vc view disappear when CoachMarker is destroied and reregister on appear again.
+        CoachMarker.registerMark(title:"Show modal view controller", info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.", control:showmodalButton)
     }
 
 // MARK: - SHOW MARKS
@@ -130,21 +129,13 @@ class TopEmbeddedVC: UIViewController
     override func viewWillDisappear(_ animated: Bool) 
     {
         super.viewWillDisappear(animated)
-        unregisterMarks()
     }
     
     func registerMarks()
     {
-        markHandlers.append(CoachMarker.registerMark(title:"Home button", info:"Does nothing, added for demo purposes.", control:tstButtonContainer1))
-        markHandlers.append(CoachMarker.registerMark(title:"Four squares button", info:"Can actually mean whatever you want! Thus it is very usefull in general but does nothing, added for demo purposes.", control:tstButtonContainer2))
-        markHandlers.append(CoachMarker.registerMark(title:"Activity indicator", info:"Shows nothing, added for demo purposes.", control:tstIndicator))
-    }
-    func unregisterMarks()
-    {
-        markHandlers.forEach 
-        { handler in
-            CoachMarker.unregisterMark(handler)
-        }
+       CoachMarker.registerMark(title:"Home button", info:"Does nothing, added for demo purposes.", control:tstButtonContainer1)
+       CoachMarker.registerMark(title:"Four squares button", info:"Can actually mean whatever you want! Thus it is very usefull in general but does nothing, added for demo purposes.", control:tstButtonContainer2)
+       CoachMarker.registerMark(title:"Activity indicator", info:"Shows nothing, added for demo purposes.", control:tstIndicator)
     }
     
 }
@@ -163,13 +154,17 @@ class BotEmbeddedVC: UIViewController
     override func viewWillDisappear(_ animated: Bool) 
     {
         super.viewWillDisappear(animated)
-        unregisterMarks()
+        //unregisterMarks()
     }
     
     func registerMarks()
     {
-        markHandlers.append(CoachMarker.registerMark(title:"Left switch", info:"Does nothing, what's common for lefts as you probably know, added for demo purposes.", control:tstSwitcher1))
-        markHandlers.append(CoachMarker.registerMark(title:"Right switch", info:"Controls the left one, added for the sake of justice!", control:tstSwitcher2))
+        // This is another approach to registration marks. The marks handler isn't going to be unregistered automatically, hence we have to do this
+        // manually when we need. If we don't, they will be shown by another CoachMarker when it starts. Try to comment out unregisterMarks call to
+        // see these marks above modal vc when it's shown.
+        // This method is more robust, since it allows to unregister the marks even though they've never shown.
+        markHandlers.append(CoachMarker.registerMark(title:"Left switch", info:"Does nothing, what's common for lefts as you probably know, added for demo purposes.", control:tstSwitcher1, autorelease:false))
+        markHandlers.append(CoachMarker.registerMark(title:"Right switch", info:"Controls the left one, added for the sake of justice!", control:tstSwitcher2, autorelease:false))
     }
     func unregisterMarks()
     {
