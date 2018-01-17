@@ -59,44 +59,48 @@ public class CoachMarker
 /// These methods are preferable for coach mark adding.
 /// See <ref to example project> for usage examples
     
-    static public func registerMark(position:CGPoint, aperture:CGFloat, title:String, info:String, control:Any? = nil) ->CoachMarkHandler
+    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, title:String, info:String, control:Any? = nil, autorelease:Bool = true) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
             marker.addMark(title:title, info:info, position:position, aperture:aperture, control:control)
+            if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
-    static public func registerMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat = 0, control:UIView) ->CoachMarkHandler
+    @discardableResult static public func registerMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat = 0, control:UIView, autorelease:Bool = true) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
             marker.addMark(title:title, info:info, centerShift:centerShift, aperture:aperture, control:control)
+            if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
     
-    static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any, control:Any? = nil) ->CoachMarkHandler
+    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any, control:Any? = nil, autorelease:Bool = true) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
             marker.addMark(position:position, aperture:aperture, info:info, control:control)
+            if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
-    static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any?, infoView:CoachMarkInfoView, control:Any? = nil) ->CoachMarkHandler
+    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any?, infoView:CoachMarkInfoView, control:Any? = nil, autorelease:Bool = true) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
             marker.addMark(position:position, aperture:aperture, info:info, infoView:infoView, control:control)
+            if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
@@ -178,6 +182,13 @@ public class CoachMarker
     }
     public func destroy(completion:@escaping ()->Void)
     {
+        // Automatic un-registration staticaly registered marks, which handlers are not stored externally
+        handlers.forEach 
+        { handler in
+            NotificationCenter.default.removeObserver(handler.token)
+        }
+        handlers.removeAll()
+        // Clean up canvas
         marksCanvas.removeCurrentMark
         {
             self.marksCanvas.removeFromSuperview()
@@ -233,6 +244,7 @@ public class CoachMarker
     var marksCanvas:CoachMarksCanvas
     
     var marks = [MarkInfo]()
+    var handlers = [CoachMarkHandler]()
     var nextMarkIndex:Int = 0
     
     enum Events
