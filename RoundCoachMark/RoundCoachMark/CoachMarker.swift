@@ -22,15 +22,17 @@ public class CoachMarker
     
 // MARK: - INIT
     
-    public init(in container:UIView, infoPadding:CGFloat) 
+    public init(in container:UIView, infoPadding:CGFloat, tag:String? = nil) 
     {
+        markerTag = tag
         marksContainer = container
         marksCanvas = CoachMarksCanvas(frame:container.bounds)
         marksCanvas.markInfo = DefaultCoachMarkInfoView(width:container.bounds.size.width - 2*infoPadding)
         setup()
     }
-    public init(in container:UIView, infoView:CoachMarkInfoView) 
+    public init(in container:UIView, infoView:CoachMarkInfoView, tag:String? = nil) 
     {
+        markerTag = tag
         marksContainer = container
         marksCanvas = CoachMarksCanvas(frame:container.bounds)
         marksCanvas.markInfo = infoView
@@ -59,46 +61,50 @@ public class CoachMarker
 /// These methods are preferable for coach mark adding.
 /// See <ref to example project> for usage examples
     
-    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, title:String, info:String, control:Any? = nil, autorelease:Bool = true) ->CoachMarkHandler
+    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, title:String, info:String, control:Any? = nil, autorelease:Bool = true, markTag:String? = nil) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
+            guard marker.tagsAccordance(markTag) else {return}
             marker.addMark(title:title, info:info, position:position, aperture:aperture, control:control)
             if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
-    @discardableResult static public func registerMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat = 0, control:UIView, autorelease:Bool = true) ->CoachMarkHandler
+    @discardableResult static public func registerMark(title:String, info:String, centerShift:CGPoint = CGPoint.zero, aperture:CGFloat = 0, control:UIView, autorelease:Bool = true, markTag:String? = nil) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
+            guard marker.tagsAccordance(markTag) else {return}
             marker.addMark(title:title, info:info, centerShift:centerShift, aperture:aperture, control:control)
             if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
     
-    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any, control:Any? = nil, autorelease:Bool = true) ->CoachMarkHandler
+    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any, control:Any? = nil, autorelease:Bool = true, markTag:String? = nil) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
+            guard marker.tagsAccordance(markTag) else {return}
             marker.addMark(position:position, aperture:aperture, info:info, control:control)
             if autorelease {marker.handlers.append(handler)}
         }
         return handler
     }
-    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any?, infoView:CoachMarkInfoView, control:Any? = nil, autorelease:Bool = true) ->CoachMarkHandler
+    @discardableResult static public func registerMark(position:CGPoint, aperture:CGFloat, info:Any?, infoView:CoachMarkInfoView, control:Any? = nil, autorelease:Bool = true, markTag:String? = nil) ->CoachMarkHandler
     {
         let handler = CoachMarkHandler()
         handler.token = NotificationCenter.default.addObserver(forName:Events.CoachMarkerMarksRequest, object:nil, queue:OperationQueue.main)
         { note in
             guard let marker = note.object as? CoachMarker else {return}
+            guard marker.tagsAccordance(markTag) else {return}
             marker.addMark(position:position, aperture:aperture, info:info, infoView:infoView, control:control)
             if autorelease {marker.handlers.append(handler)}
         }
@@ -146,6 +152,21 @@ public class CoachMarker
         let mark = MarkInfo(position:position, aperture:aperture, control:control, textInfo:nil, info:info, infoView:infoView)
         marks.append(mark)
     }
+    
+    private func tagsAccordance(_ markTag:String?) ->Bool
+    {
+        if let marker_tag = markerTag
+        {
+            guard let mark_tag = markTag else {return false}
+            return marker_tag == mark_tag
+        }
+        if let mark_tag = markTag
+        {
+            guard let marker_tag = markerTag else {return false}
+            return mark_tag == marker_tag
+        }
+        return false
+    }   
     
 // MARK: - CONTROL AND ACCESS INTERFACE
     
@@ -247,6 +268,8 @@ public class CoachMarker
     var handlers = [CoachMarkHandler]()
     var nextMarkIndex:Int = 0
     
+    var markerTag:String?
+    
     enum Events
     {
         public static let CoachMarkerMarksRequest = Notification.Name("CoachMarkerRegisterMarksRequest")
@@ -279,5 +302,16 @@ public class CoachMarkHandler
     {
         print("MarkControlHandler deinit: \(self)")
         NotificationCenter.default.removeObserver(token)
+    }
+}
+
+// MARK: - TYPICAL MARKS SHOWING CYCLE
+
+extension CoachMarker
+{
+    static public func cycleAllMarksOnce(in marker:CoachMarker) ->Bool
+    {
+        // TODO: under construction. 
+        return false
     }
 }
