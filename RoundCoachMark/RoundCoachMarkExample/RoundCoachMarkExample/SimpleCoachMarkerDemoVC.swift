@@ -133,10 +133,12 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
     
     private var marksCount:Int?
     private var showMarks:Bool = false
+    private var animating:Bool = false
     
     @IBAction func onTap(_ sender: Any) 
     {
-        guard showMarks else {return}
+        guard showMarks && !animating else {return}
+        animating = true
         if marksCount == nil {marksCount = coachMarker?.marksCount}
         if marksCount! == 0
         {
@@ -145,12 +147,14 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
                 self.marksContainer.removeFromSuperview()
             }
             showMarks = false
+            animating = false
         }
         else
         {
             coachMarker?.presentNextMark
             { [weak self] in
                 self?.marksCount! -= 1
+                self?.animating = false
             }
         }
     }

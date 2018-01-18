@@ -64,6 +64,7 @@ class CoachMarksCanvas: UIView
     
     func show(_ mark:CoachMarker.MarkInfo,completion:@escaping ()->Void)
     {
+        guard animate(true) else {return}
         if let info_view = mark.infoView    {markInfo = info_view}
         if let (title,text) = mark.textInfo {markInfo?.setTextInfo(title:title, info:text);resetMarkInfo()}
         if let info = mark.info             {markInfo?.setInfo(info);resetMarkInfo()}
@@ -81,18 +82,21 @@ class CoachMarksCanvas: UIView
         completion:
         {
             (self.markInfo as! UIView).alpha = 1
+            self.animate(false)
             completion()
         })
     }
     
     func removeCurrentMark(completion:@escaping ()->Void)
     {
+        guard animate(true) else {return} 
         if let ring = ringView
         {
             ring.openRing(false,
             completion:
             { 
                 ring.removeFromSuperview()
+                self.animate(false)
                 completion()
             })
             ringView = nil
@@ -100,8 +104,16 @@ class CoachMarksCanvas: UIView
         }
         else
         {
+            animate(false)
             completion()
         }
+    }
+    
+    @discardableResult private func animate(_ activate:Bool ) ->Bool
+    {
+        if      activate && animating  {return false}
+        else if activate && !animating {animating = activate;return true}
+        else                           {animating = false;return false} 
     }
     
 // MARK: - CUSTOMIZABLE PARAMETERS
@@ -133,6 +145,8 @@ class CoachMarksCanvas: UIView
 
     
 // MARK: - INIT
+    
+    private var animating:Bool = false
     
     required init?(coder aDecoder: NSCoder) 
     {
