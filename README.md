@@ -63,8 +63,8 @@ Instead of adding a mark to the marker directly you pre-register it in some meth
 
 CoachMarker.registerMark(title:"Show modal view controller", 
                          info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.", 
-                                 control:showmodalButton,
-                                 markTag:"scenario-2")
+                         control:showmodalButton,
+                         markTag:"scenario-2")
 
 ```
 As you see you can use `markTag:` parameter to tag a mark and then it will only be shown by the marker tagged with the same tag. Thus you can have as many markers as you need. Alternatively, you can unregister marks. 
