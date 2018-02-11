@@ -5,13 +5,19 @@
 
 **RoundCoachMark** is a small Swift library for showing animated focused on GUI element round-shaped overlays - coach marks - with text for onboarding or run-time help purposes.
 
+![Watch the demo](./demo.gif)
+
 **RoundCoachMark** supports customization. You can set colors, fonts and adjust dynamics.
 
 **RoundCoachMark's** main feature is the mechanism of pre-registration of a coach marks - you register a mark when it is convenient to do (on appearence or configuration) and forget about it. Next time the CoachMarker starts it will find the mark and show it as appropriate. You can show marks for basic GUI elements like buttons, input fields, labels and icons independently of whether they are static or appears, say, in table view cell. 
 
 ## Usage
 
-There are two basic scenarios for coach marks. 
+### Cocoapods
+You can use this layout in your project by adding to your podfile:
+<pre>pod 'RoundCoachMark'</pre>
+
+There are two basic scenarios for coach marks.
 The first one is illustrated by `SimpleCoachMarkerDemoVC` in demo project. In this scenario of GUI elemnts - controls - you want to show up are in the the same view controller, thus you can add them to the CoachMarker directly
 
 ### Simple scenario
@@ -32,9 +38,9 @@ In some setup method:
 ```swift
 coachMarker = CoachMarker(in:self.view, infoPadding:20)
 
-coachMarker!.addMark(title:"Gear up!", info:"Tap the icon to open Settings screen.", 
+coachMarker!.addMark(title:"Gear up!", info:"Tap the icon to open Settings screen.",
                      control:gearButton)
-coachMarker!.addMark(title:"Get out of here!", info:"Tap this to exit", 
+coachMarker!.addMark(title:"Get out of here!", info:"Tap this to exit",
                      control:exitButton)
 
 ```
@@ -51,8 +57,8 @@ coachMarker?.autoPlay(delay:0.5, interval:1, completion:{print("autoPlay finishe
 
 ```
 
-Both play-methods shows all added marks one after another then destroy the marker, or alternatively you can avoid the marker destrruction with flag and reuse it later. 
-        
+Both play-methods shows all added marks one after another then destroy the marker, or alternatively you can avoid the marker destrruction with flag and reuse it later.
+
 ### Realistic scenario
 
 The second scenario is more realistic. It is illustrated by `ComplexCoachMarkerDemoVC`. Imagine your screen consists of several view controllers and hierarchy of views: root container controller (custom or system provided like navigation controller), embedded bars/menu controllers, a child content controller with table view and cells containing controls you whant to show up with the CoachMarker.
@@ -61,13 +67,13 @@ Instead of adding a mark to the marker directly you pre-register it in some meth
 
 ```swift
 
-CoachMarker.registerMark(title:"Show modal view controller", 
-                         info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.", 
+CoachMarker.registerMark(title:"Show modal view controller",
+                         info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.",
                          control:showmodalButton,
                          markTag:"scenario-2")
 
 ```
-As you see you can use `markTag:` parameter to tag a mark and then it will only be shown by the marker tagged with the same tag. Thus you can have as many markers as you need. Alternatively, you can unregister marks. 
+As you see you can use `markTag:` parameter to tag a mark and then it will only be shown by the marker tagged with the same tag. Thus you can have as many markers as you need. Alternatively, you can unregister marks.
 Now you create the marker and start it as in the simple scenario.
 
 ```swift
