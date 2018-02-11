@@ -4,7 +4,9 @@
 [![Platform][platform-badge]][platform-url]
 
 **RoundCoachMark** is a small Swift library for showing animated focused on GUI element round-shaped overlays - coach marks - with text for onboarding or run-time help purposes.
+
 **RoundCoachMark** supports customization. You can set colors, fonts and adjust dynamics.
+
 **RoundCoachMark's** main feature is the mechanism of pre-registration of a coach marks - you register a mark when it is convenient to do (on appearence or configuration) and forget about it. Next time the CoachMarker starts it will find the mark and show it as appropriate. You can show marks for basic GUI elements like buttons, input fields, labels and icons independently of whether they are static or appears, say, in table view cell. 
 
 ## Usage
