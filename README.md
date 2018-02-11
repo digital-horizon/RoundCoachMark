@@ -12,7 +12,7 @@
 ## Usage
 
 There are two basic scenarios for coach marks. 
-The first one - simple is illustrated by SimpleCoachMarkerDemoVC in demo project. In this scenario of GUI elemnts - controls - you want to show up are in the the same view controller, thus you can add them to CoachMarker directly
+The first one is illustrated by `SimpleCoachMarkerDemoVC` in demo project. In this scenario of GUI elemnts - controls - you want to show up are in the the same view controller, thus you can add them to the CoachMarker directly
 
 ### Simple scenario
 
@@ -55,7 +55,7 @@ Both play-methods shows all added marks one after another then destroy the marke
         
 ### Realistic scenario
 
-The second scenario is more realistic. Imagine your screen consists of several view controllers and hierarchy of views: root container controller (custom or system provided like navigation controller), embedded bars/menu controllers, a child content controller with table view and cells containing controls you whant to show up with the CoachMarker.
+The second scenario is more realistic. It is illustrated by `ComplexCoachMarkerDemoVC`. Imagine your screen consists of several view controllers and hierarchy of views: root container controller (custom or system provided like navigation controller), embedded bars/menu controllers, a child content controller with table view and cells containing controls you whant to show up with the CoachMarker.
 Apparently, you will want to create the CoarchMarker on root container controller level, but how to reach out the contlols from that level? Here is how.
 Instead of adding a mark to the marker directly you pre-register it in some method which is guarantied to start before the marker created:
 
