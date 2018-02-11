@@ -124,15 +124,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <gestureRecognizers/>
                     <viewLayoutGuide key="safeArea" id="Km0-DB-XCT"/>
-                    <connections>
-                        <outletCollection property="gestureRecognizers" destination="r0d-Pk-FuG" appends="YES" id="eu7-lb-mA4"/>
-                    </connections>
                 </view>
-                <tapGestureRecognizer id="r0d-Pk-FuG">
-                    <connections>
-                        <action selector="onTap:" destination="BYZ-38-t0r" id="mh1-Ij-x37"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="480.80000000000001" y="133.5832083958021"/>
         </scene>
@@ -288,6 +280,7 @@ Tap refresh button in top right corner.</string>
                             <constraint firstItem="OVV-C6-ONR" firstAttribute="centerX" secondItem="1JE-Sp-Ulq" secondAttribute="centerX" constant="-100" id="bPx-lS-iKh"/>
                             <constraint firstItem="T83-d5-qm8" firstAttribute="centerX" secondItem="1JE-Sp-Ulq" secondAttribute="centerX" constant="100" id="gzE-i1-Pa1"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="uJS-xn-6wv"/>
                     </view>
                     <connections>
                         <outlet property="tstSwitcher1" destination="OVV-C6-ONR" id="idv-sg-go8"/>
@@ -351,6 +344,7 @@ Tap refresh button in top right corner.</string>
                             <constraint firstItem="j9L-aL-9kV" firstAttribute="centerY" secondItem="Xgg-aq-ggt" secondAttribute="centerY" id="oGX-Mw-1ry"/>
                             <constraint firstItem="3uD-ry-uDE" firstAttribute="centerX" secondItem="Xgg-aq-ggt" secondAttribute="centerX" constant="100" id="vHe-Xp-tR7"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="3XU-xo-5Dc"/>
                     </view>
                     <connections>
                         <outlet property="tstButtonContainer1" destination="j9L-aL-9kV" id="id2-xY-uvW"/>
@@ -372,6 +366,7 @@ Tap refresh button in top right corner.</string>
         <image name="menu-wishes" width="24" height="24"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="M1U-Ol-Dn2"/>
         <segue reference="y1y-xA-8yi"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -26,7 +26,7 @@ class CoachRingView: UIView, CAAnimationDelegate
     private func animateRing(_ open:Bool)
     {
         guard let ring = ringGeometry else {return}
-        let timing: CAMediaTimingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseOut)
+        let timing: CAMediaTimingFunction = CAMediaTimingFunction.init(name: kCAMediaTimingFunctionEaseInEaseOut)
         let end_radius = open ? ring.radius : ring.controlRadius
         let beg_radius = open ? ring.controlRadius : ring.radius
         

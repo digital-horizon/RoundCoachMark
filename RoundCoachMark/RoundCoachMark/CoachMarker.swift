@@ -48,7 +48,7 @@ public class CoachMarker
     }
     deinit 
     {
-        destroy(completion:{})
+        destroy(completion:{print("deinit \(self)")})
     }
     
 // MARK: - MARKS BLIND REGISTRATION INTERFACE
@@ -168,7 +168,97 @@ public class CoachMarker
         return false
     }   
     
-// MARK: - CONTROL AND ACCESS INTERFACE
+    
+// MARK: - ACCESS INTERFACE
+
+    public var currentInfoView:CoachMarkInfoView? {return marksCanvas.markInfo}
+    public var marksCount:Int                     {return marks.count}
+    public var nextMark:MarkInfo?                 {return marks.count==0 ? nil :marks[nextMarkIndex]}
+    public func mark(_ index:Int) ->MarkInfo?     {return (marks.count==0 ? nil : (index<0 ? marks.first : (index>=marks.count ? marks.last : marks[index])))}
+
+// MARK: - PLAY INTERFACE
+
+    private var showCount:Int?
+    private var animating:Bool = false
+    private var tapRecognizer:UITapGestureRecognizer?
+    private var playCompletion:(()->Void)?
+    private var showTimer:Timer?
+    private var destroyAfterPlay:Bool = true
+    
+    /// tapPlay - use when the only you need is to show all marks one after another with taps. 
+    /// Marker discarded automatically, create new one if need to repeat tapPlay
+    public func tapPlay(autoStart:Bool, destroyWhenFinished:Bool = true, completion:(()->Void)? = nil)
+    {
+        guard validateContainer(),
+              let container = marksContainer else {return}
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(playNext))
+        container.addGestureRecognizer(tapRecognizer!)
+        playCompletion = completion
+        destroyAfterPlay = destroyWhenFinished
+        if autoStart {playNext(tapRecognizer!)}
+    }
+    
+    /// autoPlay - use when you need is to show all marks one after another automatically after given time interval.
+    // Marker discarded automatically, create new one if need to repeat autoPlay.
+    /// Note: if interval is too small to allow mark appearence/disappearence animation to run smoothly, the rate will be automatically droped.
+    public func autoPlay(delay:Double, interval:Double, destroyWhenFinished:Bool = true, completion:(()->Void)? = nil)
+    {
+        guard validateContainer() else {return}
+        playCompletion = completion
+        destroyAfterPlay = destroyWhenFinished
+        if delay <= 0 
+        {
+            showTimer = Timer.scheduledTimer(withTimeInterval:interval, repeats:true, block:CoachMarker.playNext(self))
+            showTimer?.fire()
+        }
+        else 
+        {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC))
+            {
+                self.showTimer = Timer.scheduledTimer(withTimeInterval:interval, repeats:true, block:CoachMarker.playNext(self))
+                self.showTimer?.fire()
+            }
+        }
+    }
+    
+    @objc private func playNext(_ sender:Any)
+    {
+        guard !animating else {return}
+        animating = true
+        if showCount == nil {showCount = self.marksCount}
+        if showCount! == 0
+        {
+            animating = false
+            if sender is Timer {showTimer?.invalidate();showTimer = nil}
+            if destroyAfterPlay 
+            {
+                playCompletion?()
+                destroy 
+                {[weak self] in 
+                    self?.marksContainer?.removeFromSuperview();
+                }
+            }
+            else                
+            {
+                marksCanvas.removeCurrentMark
+                {
+                    [weak self] in
+                    self?.playCompletion?()
+                    self?.marksContainer?.removeFromSuperview()
+                }
+            }
+        }
+        else
+        {
+            self.presentNextMark
+            { [weak self] in
+                self?.showCount! -= 1
+                self?.animating = false
+            }
+        }
+    }
+    
+// MARK: - CONTROL INTERFACE 
     
 /// presentMark - shows the mark at the given index
 /// dismissMark - hides currently shown mark
@@ -209,20 +299,26 @@ public class CoachMarker
             NotificationCenter.default.removeObserver(handler.token)
         }
         handlers.removeAll()
+        if (marksContainer?.gestureRecognizers?.count ?? 0) > 0 
+        {
+            if let tap = tapRecognizer
+            {
+                tap.removeTarget(self, action:#selector(playNext))
+                marksContainer?.removeGestureRecognizer(tap)
+                tapRecognizer = nil
+            }
+        }
+        playCompletion = nil
         // Clean up canvas
         marksCanvas.removeCurrentMark
         {
-            self.marksCanvas.removeFromSuperview()
-            self.marks.removeAll()
+            [weak self] in
+            self?.marksCanvas.removeFromSuperview()
+            self?.marks.removeAll()
             completion()
         }
     }
     
-    public var currentInfoView:CoachMarkInfoView? {return marksCanvas.markInfo}
-    public var marksCount:Int                     {return marks.count}
-    public var nextMark:MarkInfo?                 {return marks.count==0 ? nil :marks[nextMarkIndex]}
-    public func mark(_ index:Int) ->MarkInfo?     {return (marks.count==0 ? nil : (index<0 ? marks.first : (index>=marks.count ? marks.last : marks[index])))}
-
     
 // MARK: - CUSTOMIZATION INTERFACE
     
@@ -273,6 +369,14 @@ public class CoachMarker
     enum Events
     {
         public static let CoachMarkerMarksRequest = Notification.Name("CoachMarkerRegisterMarksRequest")
+    }
+    
+// MARK: - AUX
+
+    func validateContainer() ->Bool
+    {
+        guard let _ = marksContainer else {print("\(self) is not added into a view hierarchy. Check if the container view passed to the constructor exists and is in an hierarcy");return false}
+        return true
     }
 }
 
