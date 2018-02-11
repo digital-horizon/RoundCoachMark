@@ -81,8 +81,9 @@ class CoachMarksCanvas: UIView
         ringView?.openRing(true,
         completion:
         {
-            (self.markInfo as! UIView).alpha = 1
-            self.animate(false)
+            [weak self] in
+            (self?.markInfo as! UIView).alpha = 1
+            self?.animate(false)
             completion()
         })
     }
@@ -95,8 +96,9 @@ class CoachMarksCanvas: UIView
             ring.openRing(false,
             completion:
             { 
+                [weak self] in
                 ring.removeFromSuperview()
-                self.animate(false)
+                self?.animate(false)
                 completion()
             })
             ringView = nil

@@ -43,14 +43,12 @@ class ComplexCoachMarkerDemoVC: UIViewController
         marksContainer.constrainFill(padding:CGPoint.zero)
         navigationController!.view.layoutIfNeeded()
         
-        coachMarker = CoachMarker(in:marksContainer, infoPadding:20)
+        coachMarker = CoachMarker(in:marksContainer, infoPadding:20, tag:"complex")
         
         guard let marker = coachMarker,
               let info_view = marker.currentInfoView else {return}
         info_view.setTitleStyle(font: UIFont(name:"Verdana", size:20) ?? UIFont.systemFont(ofSize: 20), color: UIColor.white)
         info_view.setInfoStyle(font: UIFont(name:"Verdana", size:16) ?? UIFont.systemFont(ofSize: 16), color: UIColor.white)
-        
-        showMarks = true
     }
     func registerMarks()
     {
@@ -61,33 +59,10 @@ class ComplexCoachMarkerDemoVC: UIViewController
         // but never started CoachMarker they'll never be unregistered/
         // Of course, it is fine to re-register the autoreleased marks and start CoachMarker again.
         // In this example marks on the ComplexCoachMarkerDemoVC are unregistered on the vc view disappear when CoachMarker is destroied and reregister on appear again.
-        CoachMarker.registerMark(title:"Show modal view controller", info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.", control:showmodalButton)
-    }
-
-// MARK: - SHOW MARKS
-    
-    private var marksCount:Int?
-    private var showMarks:Bool = false
-    
-    @IBAction func onTap(_ sender: Any) 
-    {
-        guard showMarks else {return}
-        if marksCount == nil {marksCount = coachMarker?.marksCount}
-        if marksCount! == 0
-        {
-            coachMarker?.destroy 
-            {
-                self.marksContainer.removeFromSuperview()
-            }
-            showMarks = false
-        }
-        else
-        {
-            coachMarker?.presentNextMark
-            { [weak self] in
-                self?.marksCount! -= 1
-            }
-        }
+        CoachMarker.registerMark(title:"Show modal view controller", 
+                                 info:"A modal view controller brings his owm coach marks, so other marks are to be disabled. It's done by 'unregistering' active marks in viewWillDisappear of overlapped controllers.", 
+                                 control:showmodalButton,
+                                 markTag:"complex")
     }
     
 // MARK: - BUTTON HANDLERS
@@ -98,11 +73,8 @@ class ComplexCoachMarkerDemoVC: UIViewController
     }
     @IBAction func onReset(_ sender: Any) 
     {
-        guard !showMarks else {return}
-        marksCount = nil
-        
         createCoachMarker()
-        onTap(self)
+        coachMarker?.tapPlay(autoStart:true, destroyWhenFinished:false)
     }
 }
 
@@ -133,9 +105,9 @@ class TopEmbeddedVC: UIViewController
     
     func registerMarks()
     {
-       CoachMarker.registerMark(title:"Home button", info:"Does nothing, added for demo purposes.", control:tstButtonContainer1)
-       CoachMarker.registerMark(title:"Four squares button", info:"Can actually mean whatever you want! Thus it is very usefull in general but does nothing, added for demo purposes.", control:tstButtonContainer2)
-       CoachMarker.registerMark(title:"Activity indicator", info:"Shows nothing, added for demo purposes.", control:tstIndicator)
+       CoachMarker.registerMark(title:"Home button", info:"Does nothing, added for demo purposes.", control:tstButtonContainer1, markTag:"complex")
+       CoachMarker.registerMark(title:"Four squares button", info:"Can actually mean whatever you want! Thus it is very usefull in general but does nothing, added for demo purposes.", control:tstButtonContainer2, markTag:"complex")
+       CoachMarker.registerMark(title:"Activity indicator", info:"Shows nothing, added for demo purposes.", control:tstIndicator, markTag:"complex")
     }
     
 }
@@ -160,11 +132,10 @@ class BotEmbeddedVC: UIViewController
     func registerMarks()
     {
         // This is another approach to registration marks. The marks handler isn't going to be unregistered automatically, hence we have to do this
-        // manually when we need. If we don't, they will be shown by another CoachMarker when it starts. Try to comment out unregisterMarks call to
-        // see these marks above modal vc when it's shown.
+        // manually when we need.
         // This method is more robust, since it allows to unregister the marks even though they've never shown.
-        markHandlers.append(CoachMarker.registerMark(title:"Left switch", info:"Does nothing, what's common for lefts as you probably know, added for demo purposes.", control:tstSwitcher1, autorelease:false))
-        markHandlers.append(CoachMarker.registerMark(title:"Right switch", info:"Controls the left one, added for the sake of justice!", control:tstSwitcher2, autorelease:false))
+        markHandlers.append(CoachMarker.registerMark(title:"Left switch", info:"Does nothing, what's common for lefts as you probably know, added for demo purposes.", control:tstSwitcher1, autorelease:false, markTag:"complex"))
+        markHandlers.append(CoachMarker.registerMark(title:"Right switch", info:"Controls the left one, added for the sake of justice!", control:tstSwitcher2, autorelease:false, markTag:"complex"))
     }
     func unregisterMarks()
     {

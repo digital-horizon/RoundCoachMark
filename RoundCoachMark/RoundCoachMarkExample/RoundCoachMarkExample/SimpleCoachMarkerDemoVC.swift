@@ -68,8 +68,6 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
             let info_view = marker.currentInfoView else {return}
         info_view.setTitleStyle(font: UIFont(name:"Verdana", size:20) ?? UIFont.systemFont(ofSize: 20), color: UIColor.white)
         info_view.setInfoStyle(font: UIFont(name:"Verdana", size:16) ?? UIFont.systemFont(ofSize: 16), color: UIColor.white)
-        
-        showMarks = true
     }
     
 // MARK: - ADD MARKS
@@ -129,47 +127,16 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
         coachMarker?.addMark(title:"HELP is better than dosens of fancy icons!", info:"Use HELP button to restart this simple CoachMarker demo. Once started CoachMarker will show all added marks one after another, but it's not its inate behavior. You control what to show from outside code.", control:helpButton)
     }
 
-// MARK: - SHOW MARKS
-    
-    private var marksCount:Int?
-    private var showMarks:Bool = false
-    private var animating:Bool = false
-    
-    @IBAction func onTap(_ sender: Any) 
-    {
-        guard showMarks && !animating else {return}
-        animating = true
-        if marksCount == nil {marksCount = coachMarker?.marksCount}
-        if marksCount! == 0
-        {
-            coachMarker?.destroy 
-            {
-                self.marksContainer.removeFromSuperview()
-            }
-            showMarks = false
-            animating = false
-        }
-        else
-        {
-            coachMarker?.presentNextMark
-            { [weak self] in
-                self?.marksCount! -= 1
-                self?.animating = false
-            }
-        }
-    }
-
 // MARK: - BUTTON HANDLERS
     
     @IBAction func onReset(_ sender: Any) 
     {
-        guard !showMarks else {return}
-        marksCount = nil
         keyboardDown()
 
         createCoachMarker()
         addMarks()
-        onTap(self)
+        coachMarker?.tapPlay(autoStart:true,completion:{print("tapPlay finished")})
+        //coachMarker?.autoPlay(delay:0.5, interval: 1,completion:{print("autoPlay finished")})
     }
     @IBAction func onModalOut(_ sender: Any) 
     {
