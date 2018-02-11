@@ -3,7 +3,8 @@
 
 This is an useful tiny library to help you quickly add the ability of some coach scenarios into your apps.
 
-![Watch the demo](https://i.imgur.com/VuMzli4.mp4)
+![Watch the demo](./demo.gif)
+
 
 ## Quick Start
 
