@@ -1,7 +1,10 @@
 # RoundCoachMark
 
-[![Swift][swift-badge]][swift-url]
-[![Platform][platform-badge]][platform-url]
+![Swift 4.0+](https://img.shields.io/badge/Swift-4.0%2B-orange.svg)
+![Xcode 9.0+](https://img.shields.io/badge/Xcode-9.0%2B-blue.svg)
+![iOS 10.0+](https://img.shields.io/badge/iOS-10.0%2B-blue.svg)
+[![License](https://img.shields.io/cocoapods/l/BadgeSwift.svg?style=flat)](/LICENSE)
+[![Platform](https://img.shields.io/cocoapods/p/BadgeSwift.svg?style=flat)](http://cocoadocs.org/docsets/BadgeSwift)
 
 **RoundCoachMark** is a small Swift library for showing animated focused on GUI element round-shaped overlays - coach marks - with text for onboarding or run-time help purposes.
 
@@ -9,7 +12,7 @@
 
 **RoundCoachMark** supports customization. You can set colors, fonts and adjust dynamics.
 
-**RoundCoachMark's** main feature is the mechanism of pre-registration of a coach marks - you register a mark when it is convenient to do (on appearence or configuration) and forget about it. Next time the CoachMarker starts it will find the mark and show it as appropriate. You can show marks for basic GUI elements like buttons, input fields, labels and icons independently of whether they are static or appears, say, in table view cell. 
+**RoundCoachMark's** main feature is the mechanism of pre-registration of a coach marks - you register a mark when it is convenient to do (on appearence or configuration) and forget about it. Next time the CoachMarker starts it will find the mark and show it as appropriate. You can show marks for basic GUI elements like buttons, input fields, labels and icons independently of whether they are static or appears, say, in table view cell.
 
 ## Usage
 
@@ -95,3 +98,7 @@ public func dismissMark(completion:@escaping ()->Void)
 public func presentNextMark(completion:@escaping ()->Void)
 
 ```
+
+## License
+
+**RoundCoachMark** is released under the [MIT License](LICENSE).
