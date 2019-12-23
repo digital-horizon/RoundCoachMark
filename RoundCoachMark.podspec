@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "RoundCoachMark"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Useful tools for round coachmarks"
   s.homepage     = "https://github.com/digital-horizon/RoundCoachMark"
   s.license      = 'MIT'
