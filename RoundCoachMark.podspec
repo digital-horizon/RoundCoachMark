@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
     :tag => s.version.to_s
   }
 
-  s.source_files = 'RoundCoachMark/RoundCoachMark/*.{h,m,swift,plist}'
+  s.source_files = 'RoundCoachMark/RoundCoachMark/*.{h,m,swift}'
   s.requires_arc = true
   s.framework = 'UIKit'
 end
