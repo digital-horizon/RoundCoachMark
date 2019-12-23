@@ -147,7 +147,7 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
     
     private func setupKeyboard()
     {
-        NotificationCenter.default.addObserver(self, selector:#selector(onKeyboardUpDn), name:Notification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector:#selector(onKeyboardUpDn), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool
     {
@@ -157,12 +157,12 @@ class SimpleCoachMarkerDemoVC: UIViewController, UITextFieldDelegate
     @objc func onKeyboardUpDn(nc:Notification)
     {
         guard let userInfo = nc.userInfo,
-            let keyboardEndFrame = userInfo[UIKeyboardFrameEndUserInfoKey] as? CGRect,
-            let keyboardBeginFrame = userInfo[UIKeyboardFrameBeginUserInfoKey] as? CGRect,
-            let animationDuration:TimeInterval = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? Double
+            let keyboardEndFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+            let keyboardBeginFrame = userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect,
+            let animationDuration:TimeInterval = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
             else {return}
         
-        let animationCurve:UIViewAnimationCurve = UIViewAnimationCurve(rawValue: (userInfo[UIKeyboardAnimationCurveUserInfoKey] as! NSNumber).intValue) ?? .linear
+        let animationCurve:UIView.AnimationCurve = UIView.AnimationCurve(rawValue: (userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as! NSNumber).intValue) ?? .linear
         let keyboard_up = keyboardEndFrame.origin.y <= keyboardBeginFrame.origin.y
         helpButtonB.constant = keyboard_up ? keyboardEndFrame.size.height + 8 : 100
         

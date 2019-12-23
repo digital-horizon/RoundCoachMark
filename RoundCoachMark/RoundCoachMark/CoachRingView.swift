@@ -175,7 +175,7 @@ class CMRingLayer: CALayer
     @NSManaged var echo: CGFloat
     @NSManaged var echoOpacity: CGFloat
     
-    override class func needsDisplay(forKey key: (String!)) -> Bool
+    override class func needsDisplay(forKey key: String) -> Bool
     {
         if key == "ringRadius" || 
            key == "aperture"   ||
@@ -184,7 +184,7 @@ class CMRingLayer: CALayer
         else                       {return super.needsDisplay(forKey: key)}
     }
     
-    override func action(forKey event: (String!)) -> (CAAction!)
+    override func action(forKey event: String) -> CAAction?
     {
         if event == "ringRadius"  || 
            event == "aperture"    ||
