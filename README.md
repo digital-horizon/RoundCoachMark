@@ -1,7 +1,7 @@
 # RoundCoachMark
 
-![Swift 4.0+](https://img.shields.io/badge/Swift-4.0%2B-orange.svg)
-![Xcode 9.0+](https://img.shields.io/badge/Xcode-9.0%2B-blue.svg)
+![Swift 4.0+](https://img.shields.io/badge/Swift-4.2%2B-orange.svg)
+![Xcode 9.0+](https://img.shields.io/badge/Xcode-11%2B-blue.svg)
 ![iOS 10.0+](https://img.shields.io/badge/iOS-10.0%2B-blue.svg)
 [![License](https://img.shields.io/cocoapods/l/BadgeSwift.svg?style=flat)](/LICENSE)
 [![Platform](https://img.shields.io/cocoapods/p/BadgeSwift.svg?style=flat)](http://cocoadocs.org/docsets/BadgeSwift)
