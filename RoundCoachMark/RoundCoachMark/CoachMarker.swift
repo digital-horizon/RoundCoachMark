@@ -112,7 +112,7 @@ public class CoachMarker
     }
     static public func unregisterMark(_ handler:CoachMarkHandler)
     {
-        NotificationCenter.default.removeObserver(handler.token)
+        NotificationCenter.default.removeObserver(handler.token!)
     }
     
 // MARK: - MARKS DIRECT REGISTRATION INTERFACE
@@ -296,7 +296,7 @@ public class CoachMarker
         // Automatic un-registration staticaly registered marks, which handlers are not stored externally
         handlers.forEach 
         { handler in
-            NotificationCenter.default.removeObserver(handler.token)
+            NotificationCenter.default.removeObserver(handler.token!)
         }
         handlers.removeAll()
         if (marksContainer?.gestureRecognizers?.count ?? 0) > 0 
@@ -405,7 +405,7 @@ public class CoachMarkHandler
     deinit
     {
         print("MarkControlHandler deinit: \(self)")
-        NotificationCenter.default.removeObserver(token)
+        NotificationCenter.default.removeObserver(token!)
     }
 }
 
