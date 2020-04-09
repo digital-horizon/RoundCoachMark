@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.summary      = "Useful tools for round coachmarks"
   s.homepage     = "https://github.com/digital-horizon/RoundCoachMark"
   s.license      = 'MIT'
-  s.swift_versions = '4.2'
+  s.swift_versions = ['4.2', '5.0', '5.1', '5.2']
 
   s.author       = { 
     "Dima Choock" => "d.choock@gmail.com" 
